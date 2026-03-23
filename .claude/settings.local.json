@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 skills/ui-ux-pro-max/scripts/search.py \"B2B technical event production premium minimalism editorial elegant\" --design-system --persist -p \"FIVES Redesign\")",
+      "Bash(python skills/ui-ux-pro-max/scripts/search.py \"B2B technical event production premium minimalism editorial elegant\" --design-system --persist -p \"FIVES Redesign\")",
+      "Bash(where python:*)",
+      "Bash(where python3:*)",
+      "Read(//c/Users/drago/AppData/Local/Programs/Python/Python313/**)",
+      "Bash(\"C:\\\\Users\\\\drago\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"C:\\\\Projects\\\\fives-redesign\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"B2B technical event production premium minimalism editorial elegant\" --design-system --persist -p \"FIVES Redesign\" 2>&1)",
+      "Bash(\"C:\\\\Users\\\\drago\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"C:\\\\Projects\\\\fives-redesign\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"premium minimalism editorial white elegant corporate\" --domain style -n 5 2>&1)",
+      "Bash(\"C:\\\\Users\\\\drago\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"C:\\\\Projects\\\\fives-redesign\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"elegant luxury serif editorial premium\" --domain typography -n 5 2>&1)",
+      "Bash(\"C:\\\\Users\\\\drago\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"C:\\\\Projects\\\\fives-redesign\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"layout responsive form animation\" --stack nextjs 2>&1)",
+      "Bash(\"C:\\\\Users\\\\drago\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"C:\\\\Projects\\\\fives-redesign\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"hero social-proof testimonial CTA premium\" --domain landing -n 5 2>&1)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack)",
+      "Bash(rm -rf \"C:\\\\Projects\\\\fives-temp\")",
+      "Read(//c/Projects/**)",
+      "Bash(npx create-next-app@latest fives-temp --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack --yes)",
+      "Bash(cp -r \"C:\\\\Projects\\\\fives-temp/\"* \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(cp \"C:\\\\Projects\\\\fives-temp/\".* \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(cp -r \"C:\\\\Projects\\\\fives-temp/.git\" \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(cp \"C:\\\\Projects\\\\fives-temp/package.json\" \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(cp \"C:\\\\Projects\\\\fives-temp/package-lock.json\" \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(cp \"C:\\\\Projects\\\\fives-temp/tsconfig.json\" \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(cp \"C:\\\\Projects\\\\fives-temp/postcss.config.mjs\" \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(cp -r \"C:\\\\Projects\\\\fives-temp/src\" \"C:\\\\Projects\\\\fives-redesign/\")",
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest init -d --yes)"
+    ]
+  }
+}
