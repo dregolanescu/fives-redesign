@@ -2,10 +2,7 @@ import { getArticleBySlug, getPublishedArticles } from "@/lib/payload";
 import { ArticleClient } from "./article-client";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
-  const articles = await getPublishedArticles();
-  return articles.map((a: any) => ({ slug: a.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function ArticlePage({
   params,
