@@ -1,6 +1,8 @@
 import { getPublishedArticles } from "@/lib/payload";
 import { NoutatiClient, type ArticleItem } from "./noutati-client";
 
+export const dynamic = "force-dynamic";
+
 export default async function NoutatiPage() {
   const docs = await getPublishedArticles();
 
