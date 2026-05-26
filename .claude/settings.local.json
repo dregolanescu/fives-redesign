@@ -24,7 +24,17 @@
       "Bash(cp \"C:\\\\Projects\\\\fives-temp/postcss.config.mjs\" \"C:\\\\Projects\\\\fives-redesign/\")",
       "Bash(cp -r \"C:\\\\Projects\\\\fives-temp/src\" \"C:\\\\Projects\\\\fives-redesign/\")",
       "Bash(npm install:*)",
-      "Bash(npx shadcn@latest init -d --yes)"
+      "Bash(npx shadcn@latest init -d --yes)",
+      "Bash(npx shadcn@latest add card badge separator input textarea select label sheet tabs dialog -y)",
+      "mcp__magic__21st_magic_component_builder",
+      "mcp__magic__21st_magic_component_inspiration",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(npx next:*)",
+      "Bash(ls:*)",
+      "Bash(node -e \"try { require\\(''sharp''\\); console.log\\(''sharp available''\\); } catch { console.log\\(''sharp not available''\\); }\")",
+      "Bash(node -e \":*)",
+      "Bash(node -e \"const sharp = require\\(''sharp''\\); sharp\\(''public/favicon.png''\\).metadata\\(\\).then\\(m => console.log\\(m\\)\\)\")"
     ]
   }
 }

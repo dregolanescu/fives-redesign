@@ -1,0 +1,477 @@
+/*  FIVE'S Admin — warm graphite theme inspired by Operou
+    Calm control room aesthetic with gold accent
+    ─────────────────────────────────────────────────────── */
+
+:root {
+  /* ── FIVE'S brand ──────────────────────────────────── */
+  --fives-gold: #d4a843;
+  --fives-gold-light: #e8c96e;
+  --fives-gold-dark: #b8902e;
+  --fives-gold-soft: rgba(212, 168, 67, 0.12);
+
+  /* ── Warm graphite palette (Operou-derived) ────────── */
+  --bg: #242422;
+  --surface: #2E2E2B;
+  --surface-elevated: #363632;
+  --border: #474741;
+  --text-primary: #F2F0EA;
+  --text-secondary: #B8B5AD;
+  --text-muted: #85827A;
+
+  /* ── Payload theme token overrides ─────────────────── */
+  --theme-elevation-0: var(--bg);
+  --theme-elevation-50: var(--surface);
+  --theme-elevation-100: var(--surface-elevated);
+  --theme-elevation-150: #3d3d38;
+  --theme-elevation-200: var(--border);
+  --theme-elevation-250: #57564f;
+  --theme-elevation-300: var(--text-muted);
+  --theme-elevation-350: var(--text-secondary);
+  --theme-elevation-400: #c8c5be;
+  --theme-elevation-450: #dbd9d3;
+  --theme-elevation-500: var(--text-primary);
+  --theme-elevation-1000: var(--text-primary);
+
+  --theme-success-500: #8FBF9F;
+  --theme-error-500: #D98C8C;
+  --theme-warning-500: #D7B56D;
+
+  --theme-text: var(--text-primary);
+  --theme-bg: var(--bg);
+  --theme-input-bg: var(--surface);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL — warm graphite canvas
+   ═══════════════════════════════════════════════════════ */
+
+/* Main content area */
+.template-default,
+.template-default__wrap,
+.template-minimal,
+.template-minimal__wrap {
+  background: var(--bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAV SIDEBAR — slightly elevated surface
+   ═══════════════════════════════════════════════════════ */
+
+.nav {
+  background: var(--surface) !important;
+  border-right-color: var(--border) !important;
+}
+
+/* Logo — injected above scroll area */
+.nav__scroll::before {
+  content: "";
+  display: block;
+  width: 130px;
+  height: 40px;
+  margin: 0 0 20px 0;
+  flex-shrink: 0;
+  background: url("/logo_website_fives_white.svg") no-repeat left center / contain;
+}
+
+/* Nav links */
+.nav .nav__link {
+  color: var(--text-muted) !important;
+  transition: color 0.15s, background 0.15s;
+}
+.nav .nav__link:hover {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  text-decoration: none !important;
+}
+.nav .nav__link.active,
+.nav .nav__link[aria-current="page"] {
+  color: var(--text-primary) !important;
+  background: var(--fives-gold-soft) !important;
+}
+
+/* Active indicator bar */
+.nav .nav__link-indicator {
+  background: var(--fives-gold) !important;
+}
+
+/* Nav group toggles */
+.nav .nav-group__toggle {
+  color: var(--text-muted) !important;
+}
+.nav .nav-group__toggle:hover {
+  color: var(--text-primary) !important;
+}
+.nav .nav-group__indicator svg .stroke {
+  stroke: var(--text-muted) !important;
+}
+
+/* Nav controls (gear, logout) */
+.nav .nav__controls {
+  border-top-color: var(--border) !important;
+}
+.nav .nav__controls button,
+.nav .nav__controls a,
+.nav .nav__log-out {
+  color: var(--text-muted) !important;
+}
+.nav .nav__controls button:hover,
+.nav .nav__controls a:hover,
+.nav .nav__log-out:hover {
+  color: var(--text-primary) !important;
+}
+.nav .nav__log-out {
+  border-top-color: var(--border) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOP HEADER — subtle separator
+   ═══════════════════════════════════════════════════════ */
+
+.app-header {
+  background: var(--bg) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Breadcrumb — FIVE'S logo replacing default icon */
+.app-header .step-nav__home {
+  font-size: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  min-width: 80px !important;
+  min-height: 24px !important;
+  overflow: visible !important;
+}
+/* Hide default Payload icon in breadcrumb */
+.app-header .step-nav__home svg,
+.app-header .step-nav__home img,
+.app-header .step-nav .graphic-icon {
+  display: none !important;
+}
+.app-header .step-nav__home::before {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 24px;
+  background: url("/logo_website_fives_white.svg") no-repeat left center / contain;
+  flex-shrink: 0;
+}
+
+/* Step nav separator + text */
+.app-header .step-nav span,
+.app-header .step-nav a {
+  color: var(--text-secondary) !important;
+}
+
+/* Dashboard tab / view title — force visibility */
+.app-header *,
+.app-header a,
+.app-header span,
+.app-header button,
+.app-header li {
+  color: var(--text-primary) !important;
+}
+.app-header [class*="doc-tab"]:hover,
+.app-header [class*="doc-tab"]:hover * {
+  color: var(--fives-gold-light) !important;
+}
+/* Active tab underline */
+.app-header [class*="doc-tab--active"]::after,
+.app-header [class*="tab--active"]::after {
+  background: var(--fives-gold) !important;
+}
+
+/* Popup menu (Edit Dashboard / Reset Layout) */
+.popup__content,
+.popup__scroll-container {
+  background: var(--surface-elevated) !important;
+  border-color: var(--border) !important;
+}
+.popup__content button,
+.popup__content a {
+  color: var(--text-primary) !important;
+}
+.popup__content button:hover,
+.popup__content a:hover {
+  background: var(--fives-gold-soft) !important;
+}
+
+/* Account avatar area */
+.app-header__account {
+  color: var(--text-secondary) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DASHBOARD CARDS — elevated surface
+   ═══════════════════════════════════════════════════════ */
+
+.dashboard-card,
+.card {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+.dashboard-card:hover,
+.card:hover {
+  border-color: var(--fives-gold) !important;
+  background: var(--surface-elevated) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   COLLECTION LIST / TABLE
+   ═══════════════════════════════════════════════════════ */
+
+/* Table header */
+.table .sort-column__label,
+.table th {
+  color: var(--text-muted) !important;
+}
+
+/* Table rows */
+.table .row td {
+  border-bottom-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+.table .row:hover td {
+  background: var(--fives-gold-soft) !important;
+}
+
+/* Table links */
+.table .cell-link {
+  color: var(--text-primary) !important;
+}
+.table .cell-link:hover {
+  color: var(--fives-gold-light) !important;
+}
+
+/* Collection header */
+.collection-list__header,
+.collection-list__sub-header {
+  border-bottom-color: var(--border) !important;
+}
+
+/* Search bar */
+.search-filter input {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+.search-filter input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Filters / Columns buttons */
+.list-controls button,
+.list-controls .pill {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+}
+.list-controls button:hover,
+.list-controls .pill:hover {
+  background: var(--surface-elevated) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Pagination */
+.collection-list__page-info {
+  color: var(--text-muted) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DOCUMENT EDIT FORM
+   ═══════════════════════════════════════════════════════ */
+
+/* Field labels */
+.field-type label,
+.field-label {
+  color: var(--text-secondary) !important;
+}
+
+/* Text inputs */
+.field-type input,
+.field-type textarea,
+.field-type select {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+.field-type input::placeholder,
+.field-type textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Field descriptions */
+.field-description {
+  color: var(--text-muted) !important;
+}
+
+/* Sidebar in document edit */
+.doc-controls,
+.document-fields__sidebar {
+  background: var(--surface) !important;
+  border-left-color: var(--border) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUTTONS — gold primary, ghost secondary
+   ═══════════════════════════════════════════════════════ */
+
+.btn--style-primary,
+button.btn--style-primary {
+  background-color: var(--fives-gold) !important;
+  border-color: var(--fives-gold) !important;
+  color: #1c1917 !important;
+}
+.btn--style-primary:hover,
+button.btn--style-primary:hover {
+  background-color: var(--fives-gold-dark) !important;
+  border-color: var(--fives-gold-dark) !important;
+}
+
+.btn--style-secondary,
+button.btn--style-secondary {
+  background: transparent !important;
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+}
+.btn--style-secondary:hover,
+button.btn--style-secondary:hover {
+  border-color: var(--text-muted) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOCUS & INTERACTIVE STATES
+   ═══════════════════════════════════════════════════════ */
+
+*:focus-visible {
+  outline-color: var(--fives-gold) !important;
+}
+input:focus,
+textarea:focus,
+select:focus,
+[contenteditable]:focus {
+  border-color: var(--fives-gold) !important;
+  box-shadow: 0 0 0 2px var(--fives-gold-soft) !important;
+}
+
+/* Toggle / checkbox */
+.checkbox-input:checked + .custom-checkbox,
+.toggle-input:checked + .custom-toggle {
+  background-color: var(--fives-gold) !important;
+  border-color: var(--fives-gold) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LOGIN PAGE — dark, branded
+   ═══════════════════════════════════════════════════════ */
+
+.template-minimal {
+  background: var(--bg) !important;
+}
+
+/* Login brand area */
+.login__brand svg,
+.login__brand img {
+  display: none !important;
+}
+.login__brand::before {
+  content: "";
+  display: block;
+  width: 200px;
+  height: 57px;
+  margin: 0 auto;
+  background: url("/logo_website_fives_white.svg") no-repeat center / contain;
+}
+.login__brand::after {
+  content: "Admin Panel";
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Login form */
+.login-fields {
+  background: var(--surface) !important;
+  border-top: 2px solid var(--fives-gold) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MISC POLISH
+   ═══════════════════════════════════════════════════════ */
+
+/* Pill badges */
+.pill {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Scrollbars — minimal */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Watermark — FIVE'S icon bottom-right */
+.template-default__wrap::after {
+  content: "";
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  background: url("/favicon_ideogram_fives-01.svg") no-repeat center / contain;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Headings in main content */
+h1, h2, h3 {
+  color: var(--text-primary) !important;
+}
+
+/* Generic links in content area */
+a:not(.btn):not(.nav__link):not(.step-nav__home) {
+  color: var(--fives-gold-light) !important;
+}
+a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
+  color: var(--fives-gold) !important;
+}
+
+/* Select dropdowns */
+.rs__control {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+.rs__menu {
+  background: var(--surface-elevated) !important;
+  border-color: var(--border) !important;
+}
+.rs__option {
+  color: var(--text-primary) !important;
+}
+.rs__option--is-focused {
+  background: var(--fives-gold-soft) !important;
+}
+
+/* Drawer / modal overlays */
+.drawer__content {
+  background: var(--surface) !important;
+}
