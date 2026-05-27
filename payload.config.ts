@@ -60,7 +60,6 @@ export default buildConfig({
             enabled: true,
             collections: {
               media: true,
-              'hero-slides': true,
             },
             token: process.env.BLOB_READ_WRITE_TOKEN,
           }),
