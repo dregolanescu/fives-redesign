@@ -100,8 +100,8 @@ export const Users: CollectionConfig = {
   admin: { useAsTitle: 'name' },
   auth: {
     forgotPassword: {
-      generateEmailHTML: (args) => resetEmailHTML({ token: args?.token, user: args?.user }),
-      generateEmailSubject: () => "Resetare parolă — FIVE'S Admin",
+      generateEmailHTML: (args: any) => resetEmailHTML({ token: args?.token, user: args?.user }),
+      generateEmailSubject: (_args: any) => "Resetare parolă — FIVE'S Admin",
     },
   },
   fields: [
