@@ -680,6 +680,10 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 .rs__single-value * {
   color: var(--text-primary) !important;
 }
+.rs__single-value {
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
 .rs__placeholder {
   color: var(--text-muted) !important;
 }
