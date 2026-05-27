@@ -455,10 +455,34 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
   color: var(--fives-gold) !important;
 }
 
-/* Select dropdowns */
+/* Select dropdowns (react-select) */
 .rs__control {
   background: var(--surface) !important;
   border-color: var(--border) !important;
+}
+.rs__single-value,
+.rs__single-value * {
+  color: var(--text-primary) !important;
+}
+.rs__placeholder {
+  color: var(--text-muted) !important;
+}
+.rs__input-container,
+.rs__input-container input,
+.rs__input {
+  color: var(--text-primary) !important;
+}
+.rs__indicator,
+.rs__dropdown-indicator,
+.rs__clear-indicator {
+  color: var(--text-muted) !important;
+}
+.rs__indicator:hover,
+.rs__dropdown-indicator:hover {
+  color: var(--text-secondary) !important;
+}
+.rs__indicator-separator {
+  background-color: var(--border) !important;
 }
 .rs__menu {
   background: var(--surface-elevated) !important;
@@ -469,6 +493,21 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 }
 .rs__option--is-focused {
   background: var(--fives-gold-soft) !important;
+}
+.rs__option--is-selected {
+  background: var(--fives-gold) !important;
+  color: #1c1917 !important;
+}
+.rs__multi-value {
+  background: var(--surface-elevated) !important;
+  border-color: var(--border) !important;
+}
+.rs__multi-value__label {
+  color: var(--text-primary) !important;
+}
+.rs__multi-value__remove:hover {
+  background: var(--fives-gold-soft) !important;
+  color: var(--text-primary) !important;
 }
 
 /* Drawer / modal overlays */
