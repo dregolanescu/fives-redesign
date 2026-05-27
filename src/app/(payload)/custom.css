@@ -590,3 +590,58 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 [class*="fieldDescription"] {
   color: var(--text-muted) !important;
 }
+
+/* ═══════════════════════════════════════════════════════
+   LIST SELECTION BAR — Select all / Edit / Delete
+   ═══════════════════════════════════════════════════════ */
+
+.list-selection__button,
+.list-selection__button.btn,
+.delete-documents__toggle {
+  color: var(--text-secondary) !important;
+}
+.list-selection__button:hover,
+.delete-documents__toggle:hover {
+  color: var(--text-primary) !important;
+}
+/* Selection count text */
+.list-selection,
+.list-selection__label,
+[class*="list-selection"] {
+  color: var(--text-primary) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CHECKBOXES — visible on dark theme
+   ═══════════════════════════════════════════════════════ */
+
+/* Checkbox box — unchecked state */
+.checkbox-input .checkbox-input__input {
+  background: var(--surface) !important;
+  border: 2px solid var(--text-muted) !important;
+}
+
+/* Checkbox box — hover */
+.checkbox-input:hover .checkbox-input__input {
+  border-color: var(--fives-gold) !important;
+}
+
+/* Checkbox box — checked state */
+.checkbox-input--checked .checkbox-input__input {
+  background: var(--fives-gold) !important;
+  border-color: var(--fives-gold) !important;
+}
+
+/* Checkbox icon (the SVG checkmark) — unchecked: hidden */
+.checkbox-input .checkbox-input__icon {
+  color: transparent !important;
+}
+
+/* Checkbox icon — checked: dark checkmark on gold */
+.checkbox-input--checked .checkbox-input__icon {
+  color: #1c1917 !important;
+}
+.checkbox-input--checked .checkbox-input__icon svg {
+  stroke: #1c1917 !important;
+  color: #1c1917 !important;
+}
