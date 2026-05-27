@@ -474,6 +474,178 @@ select:focus,
   z-index: 0;
 }
 
+/* ═══════════════════════════════════════════════════════
+   LEXICAL RICHTEXT EDITOR — dark theme overrides
+   ═══════════════════════════════════════════════════════ */
+
+/* Editor content area */
+.rich-text-lexical,
+.rich-text-lexical .ContentEditable__root,
+[class*="lexical"] [contenteditable] {
+  background: var(--surface) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Placeholder text */
+.rich-text-lexical [data-lexical-editor] [data-placeholder]::before,
+.rich-text-lexical .ContentEditable__placeholder,
+[class*="lexical"] .editor-placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Toolbar — fixed and inline */
+.toolbar,
+.inline-toolbar,
+[class*="toolbar-popup"],
+.rich-text-lexical [class*="toolbar"],
+.floating-text-format-popup {
+  background: var(--surface-elevated) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Toolbar buttons */
+.toolbar button,
+.inline-toolbar button,
+[class*="toolbar"] button,
+.floating-text-format-popup button {
+  color: var(--text-secondary) !important;
+}
+.toolbar button:hover,
+.inline-toolbar button:hover,
+[class*="toolbar"] button:hover,
+.floating-text-format-popup button:hover {
+  background: var(--fives-gold-soft) !important;
+  color: var(--text-primary) !important;
+}
+.toolbar button.active,
+.toolbar button[aria-pressed="true"],
+[class*="toolbar"] button.active,
+[class*="toolbar"] button[aria-pressed="true"] {
+  background: var(--fives-gold-soft) !important;
+  color: var(--fives-gold) !important;
+}
+
+/* Toolbar SVG icons */
+.toolbar button svg,
+.inline-toolbar button svg,
+[class*="toolbar"] button svg,
+.floating-text-format-popup button svg {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
+/* Toolbar separators / dividers */
+.toolbar .divider,
+.toolbar .toolbar-item-separator,
+[class*="toolbar"] [class*="separator"],
+[class*="toolbar"] [class*="divider"] {
+  background: var(--border) !important;
+}
+
+/* Slash command menu / block insert dropdown */
+.slash-menu,
+.typeahead-popover,
+[class*="slash-menu"],
+[class*="typeahead-popover"],
+[class*="component-picker"],
+.rich-text-lexical [role="menu"],
+.rich-text-lexical [role="listbox"] {
+  background: var(--surface-elevated) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Slash command menu items */
+.slash-menu li,
+.slash-menu .item,
+.typeahead-popover li,
+.typeahead-popover .item,
+[class*="slash-menu"] li,
+[class*="component-picker"] li,
+.rich-text-lexical [role="menu"] [role="menuitem"],
+.rich-text-lexical [role="listbox"] [role="option"] {
+  color: var(--text-primary) !important;
+}
+
+/* Slash command menu items — hover / selected */
+.slash-menu li:hover,
+.slash-menu .item.selected,
+.typeahead-popover li:hover,
+.typeahead-popover .item.selected,
+[class*="slash-menu"] li:hover,
+[class*="slash-menu"] li.selected,
+[class*="component-picker"] li:hover,
+[class*="component-picker"] li.selected,
+.rich-text-lexical [role="menu"] [role="menuitem"]:hover,
+.rich-text-lexical [role="menu"] [role="menuitem"].selected,
+.rich-text-lexical [role="menu"] [role="menuitem"][aria-selected="true"],
+.rich-text-lexical [role="listbox"] [role="option"]:hover,
+.rich-text-lexical [role="listbox"] [role="option"].selected,
+.rich-text-lexical [role="listbox"] [role="option"][aria-selected="true"] {
+  background: var(--fives-gold-soft) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Slash command menu section headers (Basic, etc.) */
+.slash-menu .category-title,
+[class*="slash-menu"] [class*="category"],
+[class*="slash-menu"] [class*="section-title"],
+[class*="component-picker"] [class*="category"],
+.rich-text-lexical [role="menu"] [class*="group-label"] {
+  color: var(--text-muted) !important;
+}
+
+/* Slash command menu item icons */
+.slash-menu .icon,
+.slash-menu li .icon,
+[class*="slash-menu"] .icon,
+[class*="component-picker"] .icon,
+.rich-text-lexical [role="menu"] [role="menuitem"] .icon,
+.rich-text-lexical [role="listbox"] [role="option"] .icon {
+  color: var(--text-secondary) !important;
+}
+
+/* Block format dropdown (Normal / H1 / H2 / etc.) */
+.block-controls,
+[class*="block-controls"],
+.toolbar [class*="dropdown"],
+[class*="toolbar"] [class*="dropdown"] {
+  background: var(--surface-elevated) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Link editor popup */
+.link-editor,
+[class*="link-editor"] {
+  background: var(--surface-elevated) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+.link-editor input,
+[class*="link-editor"] input {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Lexical add block button (+) */
+.rich-text-lexical [class*="add-block"],
+.rich-text-lexical [class*="addBlock"] {
+  color: var(--text-muted) !important;
+}
+.rich-text-lexical [class*="add-block"]:hover,
+.rich-text-lexical [class*="addBlock"]:hover {
+  color: var(--fives-gold) !important;
+}
+
+/* Horizontal rule in editor */
+.rich-text-lexical hr {
+  border-color: var(--border) !important;
+}
+
 /* Headings in main content */
 h1, h2, h3 {
   color: var(--text-primary) !important;
