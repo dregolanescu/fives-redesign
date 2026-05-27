@@ -633,11 +633,28 @@ select:focus,
 
 /* Lexical add block button (+) */
 .rich-text-lexical [class*="add-block"],
-.rich-text-lexical [class*="addBlock"] {
+.rich-text-lexical [class*="addBlock"],
+.rich-text-lexical button[class*="add-block"],
+.rich-text-lexical button[class*="addBlock"],
+.rich-text-lexical .lexical-block-add,
+.rich-text-lexical button svg,
+.rich-text-lexical > div > button,
+[class*="lexicalBlock"] button,
+.ContentEditable__root + button,
+.rich-text-lexical button[aria-label*="Add"],
+.rich-text-lexical button[aria-label*="add"],
+.rich-text-lexical button[aria-label*="block"],
+.rich-text-lexical button[aria-label*="Block"],
+.rich-text-lexical button[aria-label*="insert"],
+.rich-text-lexical button[aria-label*="Insert"] {
   color: var(--text-muted) !important;
 }
 .rich-text-lexical [class*="add-block"]:hover,
-.rich-text-lexical [class*="addBlock"]:hover {
+.rich-text-lexical [class*="addBlock"]:hover,
+.rich-text-lexical button[aria-label*="Add"]:hover,
+.rich-text-lexical button[aria-label*="add"]:hover,
+.rich-text-lexical button[aria-label*="block"]:hover,
+.rich-text-lexical button[aria-label*="Block"]:hover {
   color: var(--fives-gold) !important;
 }
 
