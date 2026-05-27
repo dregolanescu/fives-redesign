@@ -6,11 +6,11 @@ import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
-import { Articles } from './collections/Articles'
-import { HeroSlides } from './collections/HeroSlides'
-import { HeroConfig } from './globals/HeroConfig'
+import { Users } from './collections/Users.ts'
+import { Media } from './collections/Media.ts'
+import { Articles } from './collections/Articles.ts'
+import { HeroSlides } from './collections/HeroSlides.ts'
+import { HeroConfig } from './globals/HeroConfig.ts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -36,7 +36,7 @@ export default buildConfig({
   collections: [Users, Media, Articles, HeroSlides],
   globals: [HeroConfig],
   editor: lexicalEditor(),
-  db: sqliteAdapter({ client: dbConfig }),
+  db: sqliteAdapter({ client: dbConfig, push: true }),
   sharp,
   upload: { limits: { fileSize: 20_000_000 } },
 
