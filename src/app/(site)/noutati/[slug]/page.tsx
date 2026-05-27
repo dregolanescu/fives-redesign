@@ -14,31 +14,11 @@ export default async function ArticlePage({
 
   if (!article) return notFound();
 
-  // Extract body paragraphs from Lexical richtext
-  const bodyParagraphs: string[] = [];
-  if (article.content?.root?.children) {
-    for (const node of article.content.root.children as any[]) {
-      if (node.type === "paragraph" && node.children) {
-        const text = node.children
-          .map((child: any) => child.text || "")
-          .join("");
-        if (text.trim()) bodyParagraphs.push(text);
-      }
-    }
-  }
-
   // Get all articles for prev/next navigation
   const allArticles = await getPublishedArticles();
   const currentIndex = allArticles.findIndex((a: any) => a.slug === slug);
   const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
   const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
-
-  // Fallback: if no richText body, use excerpt as the body text
-  const finalParagraphs = bodyParagraphs.length > 0
-    ? bodyParagraphs
-    : article.excerpt
-      ? [article.excerpt]
-      : [];
 
   const articleData = {
     title: article.title,
@@ -52,7 +32,8 @@ export default async function ArticlePage({
         ? (article.featuredImage as any).url
         : null
       : null,
-    bodyParagraphs: finalParagraphs,
+    // Pass the raw Lexical content for proper rendering
+    content: article.content || null,
     prev: prevArticle ? { slug: (prevArticle as any).slug, title: (prevArticle as any).title } : null,
     next: nextArticle ? { slug: (nextArticle as any).slug, title: (nextArticle as any).title } : null,
   };

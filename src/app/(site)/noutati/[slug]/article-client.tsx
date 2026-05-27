@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Calendar, Clock, ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import { LexicalRenderer } from "@/lib/lexical-renderer";
 
 export type ArticleData = {
   title: string;
@@ -14,7 +15,7 @@ export type ArticleData = {
   readTime: number;
   excerpt: string;
   featuredImageUrl: string | null;
-  bodyParagraphs: string[];
+  content: any;
   prev: { slug: string; title: string } | null;
   next: { slug: string; title: string } | null;
 };
@@ -132,18 +133,16 @@ export function ArticleClient({ article }: { article: ArticleData }) {
           ref={bodyRef}
           initial="hidden"
           animate={bodyInView ? "visible" : "hidden"}
-          variants={staggerContainer}
+          variants={fadeUp}
           className="space-y-6 mb-16"
         >
-          {article.bodyParagraphs.map((paragraph, i) => (
-            <motion.p
-              key={i}
-              variants={fadeUp}
-              className="text-body-lg text-stone-600 leading-relaxed"
-            >
-              {paragraph}
-            </motion.p>
-          ))}
+          {article.content ? (
+            <LexicalRenderer content={article.content} />
+          ) : article.excerpt ? (
+            <p className="text-body-lg text-stone-600 leading-relaxed">
+              {article.excerpt}
+            </p>
+          ) : null}
         </motion.div>
 
         {/* CTA */}
