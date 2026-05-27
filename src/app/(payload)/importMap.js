@@ -16,6 +16,7 @@ import { QueryPresetsGroupByCell as QueryPresetsGroupByCell_0 } from '@payloadcm
 import { QueryPresetsGroupByField as QueryPresetsGroupByField_0 } from '@payloadcms/next/client'
 import { QueryPresetsWhereCell as QueryPresetsWhereCell_0 } from '@payloadcms/next/client'
 import { QueryPresetsWhereField as QueryPresetsWhereField_0 } from '@payloadcms/next/client'
+import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_0 } from '@payloadcms/storage-vercel-blob/client'
 import { default as CustomLogo } from '../../components/admin/Logo'
 import { default as CustomIcon } from '../../components/admin/Icon'
 
@@ -39,6 +40,7 @@ export const importMap = {
   "@payloadcms/next/client#QueryPresetsGroupByField": QueryPresetsGroupByField_0,
   "@payloadcms/next/client#QueryPresetsWhereCell": QueryPresetsWhereCell_0,
   "@payloadcms/next/client#QueryPresetsWhereField": QueryPresetsWhereField_0,
+  "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_0,
   "@/components/admin/Logo#default": CustomLogo,
   "@/components/admin/Icon#default": CustomIcon,
 }
