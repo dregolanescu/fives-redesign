@@ -669,12 +669,10 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 .rs__control {
   background: var(--surface) !important;
   border-color: var(--border) !important;
-  padding-left: 12px !important;
 }
-/* Fix first-letter clipping in select value containers */
+/* Align select text with regular inputs (15px padding) */
 .rs__value-container {
-  padding-left: 8px !important;
-  overflow: visible !important;
+  padding-left: 6px !important;
 }
 .rs__single-value,
 .rs__single-value * {
