@@ -34,7 +34,15 @@
       "Bash(ls:*)",
       "Bash(node -e \"try { require\\(''sharp''\\); console.log\\(''sharp available''\\); } catch { console.log\\(''sharp not available''\\); }\")",
       "Bash(node -e \":*)",
-      "Bash(node -e \"const sharp = require\\(''sharp''\\); sharp\\(''public/favicon.png''\\).metadata\\(\\).then\\(m => console.log\\(m\\)\\)\")"
+      "Bash(node -e \"const sharp = require\\(''sharp''\\); sharp\\(''public/favicon.png''\\).metadata\\(\\).then\\(m => console.log\\(m\\)\\)\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npx vercel:*)",
+      "Bash(git push:*)",
+      "Bash(git config:*)",
+      "Bash(gh repo:*)",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs"
     ]
   }
 }
