@@ -691,6 +691,7 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 .rs__input-container input,
 .rs__input {
   color: var(--text-primary) !important;
+  background: transparent !important;
 }
 .rs__indicator,
 .rs__dropdown-indicator,
