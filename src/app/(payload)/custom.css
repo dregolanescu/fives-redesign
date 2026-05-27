@@ -331,12 +331,13 @@ button.btn--style-primary:hover {
 
 .btn--style-secondary,
 button.btn--style-secondary {
-  background: transparent !important;
-  border-color: var(--border) !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
   color: var(--text-secondary) !important;
 }
 .btn--style-secondary:hover,
 button.btn--style-secondary:hover {
+  background: var(--surface-elevated) !important;
   border-color: var(--text-muted) !important;
   color: var(--text-primary) !important;
 }
@@ -406,11 +407,24 @@ select:focus,
    MISC POLISH
    ═══════════════════════════════════════════════════════ */
 
-/* Pill badges */
-.pill {
+/* Pill badges & action buttons in collection headers */
+.pill,
+.btn--style-pill,
+.collection-list__header .btn,
+.collection-list__header a[class*="btn"],
+.collection-list__header button {
   background: var(--surface) !important;
-  border-color: var(--border) !important;
+  border: 1px solid var(--border) !important;
   color: var(--text-secondary) !important;
+}
+.pill:hover,
+.btn--style-pill:hover,
+.collection-list__header .btn:hover,
+.collection-list__header a[class*="btn"]:hover,
+.collection-list__header button:hover {
+  background: var(--surface-elevated) !important;
+  border-color: var(--text-muted) !important;
+  color: var(--text-primary) !important;
 }
 
 /* Scrollbars — minimal */
