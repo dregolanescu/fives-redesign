@@ -33,6 +33,13 @@ export default async function ArticlePage({
   const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
   const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
 
+  // Fallback: if no richText body, use excerpt as the body text
+  const finalParagraphs = bodyParagraphs.length > 0
+    ? bodyParagraphs
+    : article.excerpt
+      ? [article.excerpt]
+      : [];
+
   const articleData = {
     title: article.title,
     slug: article.slug,
@@ -45,7 +52,7 @@ export default async function ArticlePage({
         ? (article.featuredImage as any).url
         : null
       : null,
-    bodyParagraphs,
+    bodyParagraphs: finalParagraphs,
     prev: prevArticle ? { slug: (prevArticle as any).slug, title: (prevArticle as any).title } : null,
     next: nextArticle ? { slug: (nextArticle as any).slug, title: (nextArticle as any).title } : null,
   };

@@ -227,6 +227,24 @@
   color: var(--text-muted) !important;
 }
 
+/* Sort arrows (asc/desc chevrons) */
+.sort-column__button,
+.sort-column__asc,
+.sort-column__desc {
+  color: var(--text-muted) !important;
+}
+.sort-column__button:hover,
+.sort-column__asc:hover,
+.sort-column__desc:hover {
+  color: var(--text-primary) !important;
+}
+/* Active sort direction */
+.sort-column__button--active,
+.sort-column__asc--active,
+.sort-column__desc--active {
+  color: var(--fives-gold) !important;
+}
+
 /* Table rows */
 .table .row td {
   border-bottom-color: var(--border) !important;

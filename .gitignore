@@ -39,6 +39,7 @@ yarn-error.log*
 # payload
 /payload.db
 /payload-types.ts
+src/app/(payload)/importMap.js
 
 # typescript
 *.tsbuildinfo
