@@ -13,7 +13,21 @@ export const Media: CollectionConfig = {
     adminThumbnail: 'thumbnail',
   },
   fields: [
-    { name: 'alt', type: 'text', label: 'Text alternativ' },
-    { name: 'caption', type: 'text', label: 'Legenda' },
+    {
+      name: 'alt',
+      type: 'text',
+      label: 'Text alternativ',
+      admin: {
+        description: 'Descrie imaginea în câteva cuvinte — apare când imaginea nu se încarcă și ajută la accesibilitate (SEO). Ex: „Sala FIVE\'S pregătită pentru eveniment"',
+      },
+    },
+    {
+      name: 'caption',
+      type: 'text',
+      label: 'Legendă',
+      admin: {
+        description: 'Text opțional afișat sub imagine pe site. Util pentru credite foto sau context suplimentar.',
+      },
+    },
   ],
 }

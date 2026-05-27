@@ -528,3 +528,65 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 .drawer__content {
   background: var(--surface) !important;
 }
+
+/* ═══════════════════════════════════════════════════════
+   IMAGE EDITOR — crop & focal point inputs
+   ═══════════════════════════════════════════════════════ */
+
+/* Edit image modal background */
+[class*="editImage"],
+[class*="edit-upload"] {
+  background: var(--bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* All inputs inside the image editor (crop dimensions, focal %) */
+[class*="editImage"] input,
+[class*="editImage"] label,
+[class*="edit-upload"] input,
+[class*="edit-upload"] label {
+  color: var(--text-primary) !important;
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+/* Headings inside editor (Crop, Focal Point) */
+[class*="editImage"] h3,
+[class*="editImage"] h4,
+[class*="editImage"] p,
+[class*="edit-upload"] h3,
+[class*="edit-upload"] h4,
+[class*="edit-upload"] p {
+  color: var(--text-primary) !important;
+}
+
+/* Buttons in image editor (Reset, Apply Changes, Cancel) */
+[class*="editImage"] button,
+[class*="edit-upload"] button {
+  color: var(--text-secondary) !important;
+}
+[class*="editImage"] button:hover,
+[class*="edit-upload"] button:hover {
+  color: var(--text-primary) !important;
+}
+
+/* File meta info (filename, size, dimensions) */
+.file-details,
+.file-details * ,
+[class*="fileMeta"],
+[class*="fileMeta"] * {
+  color: var(--text-primary) !important;
+}
+
+/* Upload file field area */
+.upload__dropzone,
+[class*="dropzone"] {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+/* Field descriptions (helper text below inputs) */
+.field-description,
+[class*="fieldDescription"] {
+  color: var(--text-muted) !important;
+}
