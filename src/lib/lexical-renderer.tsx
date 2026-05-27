@@ -96,7 +96,7 @@ function renderBlockNode(node: LexicalNode, index: number): React.ReactNode {
 
     case "heading": {
       const children = node.children?.map((child, i) => renderTextNode(child, i));
-      const Tag = (node.tag || "h2") as keyof JSX.IntrinsicElements;
+      const Tag = (node.tag || "h2") as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
       const headingClasses: Record<string, string> = {
         h1: "text-display font-bold text-stone-900 mt-10 mb-4",
         h2: "text-title font-bold text-stone-900 mt-10 mb-4",
