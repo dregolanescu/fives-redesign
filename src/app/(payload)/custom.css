@@ -693,12 +693,24 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 }
 .rs__indicator,
 .rs__dropdown-indicator,
-.rs__clear-indicator {
+.rs__clear-indicator,
+.dropdown-indicator,
+.clear-indicator {
   color: var(--text-muted) !important;
 }
+.dropdown-indicator svg .stroke,
+.clear-indicator svg .stroke {
+  stroke: var(--text-muted) !important;
+}
 .rs__indicator:hover,
-.rs__dropdown-indicator:hover {
+.rs__dropdown-indicator:hover,
+.dropdown-indicator:hover,
+.clear-indicator:hover {
   color: var(--text-secondary) !important;
+}
+.dropdown-indicator:hover svg .stroke,
+.clear-indicator:hover svg .stroke {
+  stroke: var(--text-secondary) !important;
 }
 .rs__indicator-separator {
   background-color: var(--border) !important;
