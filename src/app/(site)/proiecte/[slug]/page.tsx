@@ -23,7 +23,12 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  let project: any = null;
+  try {
+    project = await getProjectBySlug(slug);
+  } catch (e) {
+    console.error("Failed to fetch project:", e);
+  }
 
   if (!project) return notFound();
 

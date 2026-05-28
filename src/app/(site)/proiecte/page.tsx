@@ -8,7 +8,12 @@ function getMediaUrl(media: any): string | null {
 }
 
 export default async function ProiectePage() {
-  const raw = await getPublishedProjects();
+  let raw: any[] = [];
+  try {
+    raw = await getPublishedProjects();
+  } catch (e) {
+    console.error("Failed to fetch projects:", e);
+  }
 
   const projects = raw.map((p: any) => ({
     slug: p.slug,
