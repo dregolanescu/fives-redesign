@@ -6,7 +6,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 
-type CategoryKey = "Toate" | "Festival" | "Corporate" | "Concert" | "Lansare" | "Conferinta";
+type CategoryKey = "Toate" | "Corporate" | "Festival" | "Live" | "Sportiv" | "Artistic" | "Conferinta";
 
 export interface ProjectItem {
   slug: string;
@@ -21,16 +21,17 @@ export interface ProjectItem {
 
 const categoryKeys: CategoryKey[] = [
   "Toate",
-  "Festival",
   "Corporate",
-  "Concert",
-  "Lansare",
+  "Festival",
+  "Live",
+  "Sportiv",
+  "Artistic",
   "Conferinta",
 ];
 
 const categoryLabels: Record<string, Record<string, string>> = {
-  ro: { Toate: "Toate", Festival: "Festival", Corporate: "Corporate", Concert: "Concert", Lansare: "Lansare", Conferinta: "Conferinta" },
-  en: { Toate: "All", Festival: "Festival", Corporate: "Corporate", Concert: "Concert", Lansare: "Launch", Conferinta: "Conference" },
+  ro: { Toate: "Toate", Corporate: "Corporate", Festival: "Festival", Live: "Muzica live", Sportiv: "Sportiv", Artistic: "Artistic", Conferinta: "Conferinta" },
+  en: { Toate: "All", Corporate: "Corporate", Festival: "Festival", Live: "Live Music", Sportiv: "Sports", Artistic: "Artistic", Conferinta: "Conference" },
 };
 
 const containerVariants = {

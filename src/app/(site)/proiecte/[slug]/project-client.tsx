@@ -29,8 +29,8 @@ export interface ProjectData {
 }
 
 const categoryLabels: Record<string, Record<string, string>> = {
-  ro: { Festival: "Festival", Corporate: "Corporate", Concert: "Concert", Lansare: "Lansare", Conferinta: "Conferinta" },
-  en: { Festival: "Festival", Corporate: "Corporate", Concert: "Concert", Lansare: "Launch", Conferinta: "Conference" },
+  ro: { Corporate: "Corporate", Festival: "Festival", Live: "Muzica live", Sportiv: "Sportiv", Artistic: "Artistic", Conferinta: "Conferinta" },
+  en: { Corporate: "Corporate", Festival: "Festival", Live: "Live Music", Sportiv: "Sports", Artistic: "Artistic", Conferinta: "Conference" },
 };
 
 const fadeUp = {

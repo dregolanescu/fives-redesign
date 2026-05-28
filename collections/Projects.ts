@@ -29,10 +29,11 @@ export const Projects: CollectionConfig = {
     {
       name: 'category', type: 'select', label: 'Categorie',
       options: [
-        { label: 'Festival', value: 'Festival' },
         { label: 'Corporate', value: 'Corporate' },
-        { label: 'Concert', value: 'Concert' },
-        { label: 'Lansare', value: 'Lansare' },
+        { label: 'Festival', value: 'Festival' },
+        { label: 'Live', value: 'Live' },
+        { label: 'Sportiv', value: 'Sportiv' },
+        { label: 'Artistic', value: 'Artistic' },
         { label: 'Conferinta', value: 'Conferinta' },
       ],
     },
