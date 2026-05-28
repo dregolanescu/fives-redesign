@@ -746,16 +746,22 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
   background: var(--surface) !important;
 }
 
-/* Drawer close button (X) — dark on dark fix */
+/* Drawer / modal close button (X) — universal dark-on-dark fix */
 .doc-drawer__header-close,
+.list-drawer__header-close,
+.close-modal-button,
 .drawer__close {
   color: var(--text-secondary) !important;
 }
 .doc-drawer__header-close:hover,
+.list-drawer__header-close:hover,
+.close-modal-button:hover,
 .drawer__close:hover {
   color: var(--text-primary) !important;
 }
 .doc-drawer__header-close .icon,
+.list-drawer__header-close .icon,
+.close-modal-button .icon,
 .drawer__close .icon {
   color: inherit !important;
 }
