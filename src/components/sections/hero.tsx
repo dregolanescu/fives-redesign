@@ -29,6 +29,7 @@ export async function Hero() {
       videoUrl: getMediaUrl(s.videoFile),
       imageUrl: getMediaUrl(s.image),
       posterUrl: getMediaUrl(s.posterImage),
+      overlayStrength: s.overlayStrength || "medium",
       subtitle: s.subtitle || null,
       headline: s.headline,
       description: s.description || null,

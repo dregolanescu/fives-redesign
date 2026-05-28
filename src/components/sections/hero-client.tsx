@@ -11,6 +11,7 @@ export type HeroSlideData = {
   videoUrl: string | null;
   imageUrl: string | null;
   posterUrl: string | null;
+  overlayStrength: "none" | "light" | "medium" | "strong";
   subtitle: string | null;
   headline: string;
   description: string | null;
@@ -58,6 +59,20 @@ const VIDEO_FILTER = `blur(${V.blur}px) contrast(${V.contrast}) brightness(${V.b
 const NOISE_BG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='${V.noiseFreq}' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`;
 
 const OVERLAY_BG = `linear-gradient(to bottom, rgba(0,0,0,${V.overlayOpacity * 0.6}) 0%, rgba(0,0,0,${V.overlayOpacity}) 50%, rgba(0,0,0,${V.overlayOpacity * 1.4}) 100%)`;
+
+/* Per-slide overlay strength values */
+const OVERLAY_STRENGTH: Record<string, number> = {
+  none: 0,
+  light: 0.3,
+  medium: 0.5,
+  strong: 0.7,
+};
+
+function getSlideOverlay(strength: string, isVideo: boolean): string {
+  if (isVideo) return OVERLAY_BG; // videos keep the tuned overlay from Phase 1
+  const o = OVERLAY_STRENGTH[strength] ?? OVERLAY_STRENGTH.medium;
+  return `linear-gradient(to bottom, rgba(0,0,0,${o * 0.7}) 0%, rgba(0,0,0,${o}) 50%, rgba(0,0,0,${o * 1.2}) 100%)`;
+}
 
 /* ── Slide background renderer ───────────────────────────── */
 function SlideBackground({
@@ -260,6 +275,7 @@ export function HeroClient({
     videoUrl: "/clip_website_landscape.mp4?v=2",
     imageUrl: null,
     posterUrl: null,
+    overlayStrength: "light" as const,
     subtitle: null,
     headline: t.hero.heading,
     description: t.hero.body,
@@ -303,10 +319,10 @@ export function HeroClient({
         )}
       </div>
 
-      {/* Layer 2 — Gradient overlay */}
+      {/* Layer 2 — Gradient overlay (per-slide strength) */}
       <div
-        className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ background: OVERLAY_BG }}
+        className="absolute inset-0 z-[1] pointer-events-none transition-all duration-1000"
+        style={{ background: getSlideOverlay(activeSlide.overlayStrength, activeSlide.type === "video") }}
       />
 
       {/* Layer 3 — Noise texture */}
