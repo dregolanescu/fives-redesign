@@ -32,6 +32,14 @@ export const HeroSlides: CollectionConfig = {
     { name: 'ctaSecondaryUrl', type: 'text', label: 'CTA 2 — link',
       admin: { placeholder: '/proiecte', description: 'Pagina catre care duce butonul. Foloseste calea relativa, ex: /contact, /proiecte, /despre' } },
     { name: 'order', type: 'number', label: 'Ordine', required: true, defaultValue: 1, admin: { position: 'sidebar' } },
-    { name: 'active', type: 'checkbox', label: 'Activ', defaultValue: true, admin: { position: 'sidebar' } },
+    { name: 'active', type: 'checkbox', label: 'Activ', defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: '@/components/admin/ActiveToggle',
+          Cell: '@/components/admin/ActiveCell',
+        },
+      },
+    },
   ],
 }
