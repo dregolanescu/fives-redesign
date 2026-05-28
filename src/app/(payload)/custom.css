@@ -729,14 +729,24 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
   background: var(--fives-gold) !important;
   color: #1c1917 !important;
 }
-.rs__multi-value {
+/* Multi-value tags (select hasMany) — Payload uses both
+   .rs__multi-value (react-select default) and .multi-value (Payload custom).
+   The label class is .multi-value-label (Payload) not .rs__multi-value__label. */
+.rs__multi-value,
+.multi-value.rs__multi-value {
   background: var(--surface-elevated) !important;
   border-color: var(--border) !important;
-}
-.rs__multi-value__label {
   color: var(--text-primary) !important;
 }
-.rs__multi-value__remove:hover {
+.rs__multi-value__label,
+.multi-value-label {
+  color: var(--text-primary) !important;
+}
+.multi-value-label__text {
+  color: var(--text-primary) !important;
+}
+.rs__multi-value__remove:hover,
+.multi-value-remove:hover {
   background: var(--fives-gold-soft) !important;
   color: var(--text-primary) !important;
 }
