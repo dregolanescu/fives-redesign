@@ -33,6 +33,19 @@ const categoryLabels: Record<string, Record<string, string>> = {
   en: { Corporate: "Corporate", Festival: "Festival", Live: "Live Music", Sportiv: "Sports", Artistic: "Artistic", Conferinta: "Conference" },
 };
 
+const serviceLabels: Record<string, Record<string, string>> = {
+  ro: {
+    sunet: "Sunet", lumini: "Lumini", video: "Video", scenotehnica: "Scenotehnica",
+    "efecte-speciale": "Efecte speciale", pirotehnice: "Pirotehnice", scena: "Scena",
+    productie: "Productie eveniment", "management-tehnic": "Management tehnic",
+  },
+  en: {
+    sunet: "Sound", lumini: "Lighting", video: "Video", scenotehnica: "Stage Design",
+    "efecte-speciale": "Special Effects", pirotehnice: "Pyrotechnics", scena: "Stage",
+    productie: "Event Production", "management-tehnic": "Technical Management",
+  },
+};
+
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -292,11 +305,15 @@ export function ProjectClient({ project }: { project: ProjectData }) {
                       <span className="text-label text-stone-400">{isEn ? "Services" : "Servicii"}</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {project.services.map((service) => (
-                        <span key={service} className="px-3 py-1 text-xs font-medium rounded-full bg-gold-muted text-gold-dark border border-gold/20">
-                          {service}
-                        </span>
-                      ))}
+                      {project.services.map((service) => {
+                        const svcLabels = serviceLabels[lang] || serviceLabels.ro;
+                        const label = svcLabels[service] || service;
+                        return (
+                          <span key={service} className="px-3 py-1 text-xs font-medium rounded-full bg-gold-muted text-gold-dark border border-gold/20">
+                            {label}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                 )}

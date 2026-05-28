@@ -51,7 +51,7 @@ export default async function ProjectDetailPage({
     challengeEn: p.challengeEn || null,
     solution: p.solution || "",
     solutionEn: p.solutionEn || null,
-    services: (p.services || []).map((s: any) => s.name || ""),
+    services: Array.isArray(p.services) ? p.services : [],
     metrics: (p.metrics || []).map((m: any) => ({
       value: m.value || "",
       label: m.label || "",

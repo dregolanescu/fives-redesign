@@ -83,10 +83,19 @@ export const Projects: CollectionConfig = {
 
     /* ── Services ── */
     {
-      name: 'services', type: 'array', label: 'Servicii',
-      admin: { description: 'Serviciile furnizate (ex: Sunet, Lumini, Video, Scena)' },
-      fields: [
-        { name: 'name', type: 'text', label: 'Serviciu' },
+      name: 'services', type: 'select', label: 'Servicii',
+      hasMany: true,
+      admin: { description: 'Selecteaza serviciile furnizate pentru acest proiect.' },
+      options: [
+        { label: 'Sunet', value: 'sunet' },
+        { label: 'Lumini', value: 'lumini' },
+        { label: 'Video', value: 'video' },
+        { label: 'Scenotehnica', value: 'scenotehnica' },
+        { label: 'Efecte speciale', value: 'efecte-speciale' },
+        { label: 'Pirotehnice', value: 'pirotehnice' },
+        { label: 'Scena', value: 'scena' },
+        { label: 'Productie eveniment', value: 'productie' },
+        { label: 'Management tehnic', value: 'management-tehnic' },
       ],
     },
 
