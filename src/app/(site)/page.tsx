@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Hero } from "@/components/sections/hero";
 import { CredibilityStrip } from "@/components/sections/credibility-strip";
 import { Capabilities } from "@/components/sections/capabilities";
