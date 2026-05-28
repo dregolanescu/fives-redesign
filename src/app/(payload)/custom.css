@@ -746,6 +746,25 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
   background: var(--surface) !important;
 }
 
+/* Drawer close button (X) — dark on dark fix */
+.doc-drawer__header-close,
+.drawer__close {
+  color: var(--text-secondary) !important;
+}
+.doc-drawer__header-close:hover,
+.drawer__close:hover {
+  color: var(--text-primary) !important;
+}
+.doc-drawer__header-close .icon,
+.drawer__close .icon {
+  color: inherit !important;
+}
+
+/* File list — filename text in media picker */
+.file__filename {
+  color: var(--text-primary) !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    IMAGE EDITOR — crop & focal point inputs
    ═══════════════════════════════════════════════════════ */
@@ -800,6 +819,15 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
 [class*="dropzone"] {
   background: var(--surface) !important;
   border-color: var(--border) !important;
+}
+
+/* Rename "Create New" → "Upload" on upload dropzone buttons only */
+.upload__createNewToggler {
+  font-size: 0 !important;
+}
+.upload__createNewToggler::after {
+  content: 'Upload';
+  font-size: 0.875rem;
 }
 
 /* Field descriptions (helper text below inputs) */
