@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 
@@ -20,6 +20,14 @@ export type HeroSlideData = {
   ctaSecondaryUrl: string | null;
 };
 
+export type HeroConfigData = {
+  displayMode: "single" | "slider";
+  transitionDuration: number;
+  transitionType: "crossfade" | "fade-through-black";
+  autoplay: boolean;
+  showNavigation: boolean;
+};
+
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -33,7 +41,7 @@ const fadeUp = {
   }),
 };
 
-/* Final tuned values from Phase 1 debug panel */
+/* Final tuned values from Phase 1 debug panel — applied to VIDEO only */
 const V = {
   blur: 1,
   contrast: 1.15,
@@ -45,45 +53,223 @@ const V = {
   noiseFreq: 0.5,
 } as const;
 
+const VIDEO_FILTER = `blur(${V.blur}px) contrast(${V.contrast}) brightness(${V.brightness}) saturate(${V.saturate})`;
+
 const NOISE_BG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='${V.noiseFreq}' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`;
 
 const OVERLAY_BG = `linear-gradient(to bottom, rgba(0,0,0,${V.overlayOpacity * 0.6}) 0%, rgba(0,0,0,${V.overlayOpacity}) 50%, rgba(0,0,0,${V.overlayOpacity * 1.4}) 100%)`;
 
-function getMediaUrl(media: any): string | null {
-  if (!media) return null;
-  if (typeof media === "string") return media;
-  return media.url || null;
+/* ── Slide background renderer ───────────────────────────── */
+function SlideBackground({
+  slide,
+  videoRef,
+}: {
+  slide: HeroSlideData;
+  videoRef?: React.RefObject<HTMLVideoElement | null>;
+}) {
+  const isVideo = slide.type === "video";
+  const videoSrc = slide.videoUrl || "/clip_website_landscape.mp4?v=2";
+  const imageSrc = slide.imageUrl;
+
+  if (isVideo) {
+    return (
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster={slide.posterUrl || undefined}
+        className="w-full h-full object-cover object-center"
+        style={{ filter: VIDEO_FILTER, transform: `scale(${V.scale})` }}
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
+    );
+  }
+
+  if (imageSrc) {
+    return (
+      <img
+        src={imageSrc}
+        alt={slide.headline}
+        className="w-full h-full object-cover object-center"
+      />
+    );
+  }
+
+  return null;
 }
 
-export function HeroClient({ slides }: { slides: HeroSlideData[] }) {
+/* ── Slide text content ──────────────────────────────────── */
+function SlideContent({
+  slide,
+  isInView,
+  fallback,
+}: {
+  slide: HeroSlideData;
+  isInView: boolean;
+  fallback: { eyebrow: string; heading: string; body: string; ctaPrimary: string; ctaSecondary: string };
+}) {
+  const subtitle = slide.subtitle || fallback.eyebrow;
+  const headline = slide.headline || fallback.heading;
+  const description = slide.description || fallback.body;
+  const ctaPrimaryText = slide.ctaPrimaryText || fallback.ctaPrimary;
+  const ctaPrimaryUrl = slide.ctaPrimaryUrl || "/contact";
+  const ctaSecondaryText = slide.ctaSecondaryText || fallback.ctaSecondary;
+  const ctaSecondaryUrl = slide.ctaSecondaryUrl || "/proiecte";
+
+  return (
+    <div className="max-w-3xl">
+      <motion.p
+        custom={0}
+        variants={fadeUp}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="text-label text-gold mb-6"
+      >
+        {subtitle}
+      </motion.p>
+
+      <motion.h1
+        custom={1}
+        variants={fadeUp}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="text-display text-white max-w-2xl"
+      >
+        {headline}
+      </motion.h1>
+
+      <motion.div
+        custom={2}
+        variants={fadeUp}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="accent-line my-8"
+      />
+
+      {description && (
+        <motion.p
+          custom={3}
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-body-lg text-white/70 max-w-xl leading-relaxed"
+        >
+          {description}
+        </motion.p>
+      )}
+
+      <motion.div
+        custom={4}
+        variants={fadeUp}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="flex flex-wrap items-center gap-4 mt-10"
+      >
+        {ctaPrimaryText && (
+          <Link
+            href={ctaPrimaryUrl}
+            className="group inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium bg-gold text-stone-900 rounded-full hover:bg-gold-light transition-all duration-300"
+          >
+            {ctaPrimaryText}
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        )}
+
+        {ctaSecondaryText && (
+          <Link
+            href={ctaSecondaryUrl}
+            className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-medium text-white border border-white/30 rounded-full hover:border-white/60 hover:bg-white/5 transition-all duration-300"
+          >
+            {ctaSecondaryText}
+          </Link>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ── Crossfade transition variants ───────────────────────── */
+const crossfade = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 1.2, ease: "easeInOut" } },
+  exit: { opacity: 0, transition: { duration: 1.2, ease: "easeInOut" } },
+};
+
+const fadeThroughBlack = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.8, ease: "easeIn" } },
+  exit: { opacity: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+/* ── Main Hero component ─────────────────────────────────── */
+export function HeroClient({
+  slides,
+  config,
+}: {
+  slides: HeroSlideData[];
+  config?: HeroConfigData;
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const { t } = useLanguage();
+
+  const isSlider = (config?.displayMode === "slider") && slides.length > 1;
+  const duration = config?.transitionDuration || 8;
+  const autoplay = config?.autoplay ?? true;
+  const showNav = config?.showNavigation ?? true;
+  const transitionVariants = config?.transitionType === "fade-through-black" ? fadeThroughBlack : crossfade;
+
+  const [current, setCurrent] = useState(0);
+
+  const goTo = useCallback((idx: number) => {
+    setCurrent(idx);
+  }, []);
+
+  // Auto-advance for slider mode
+  useEffect(() => {
+    if (!isSlider || !autoplay) return;
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, duration * 1000);
+    return () => clearInterval(interval);
+  }, [isSlider, autoplay, duration, slides.length]);
 
   // Ensure video autoplay works after hydration
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.play().catch(() => {});
     }
-  }, []);
+  }, [current]);
 
-  // Use first active slide, or fall back to translations
-  const slide = slides[0] || null;
+  // Fallback text from translations
+  const fallback = {
+    eyebrow: t.hero.eyebrow,
+    heading: t.hero.heading,
+    body: t.hero.body,
+    ctaPrimary: t.hero.ctaPrimary,
+    ctaSecondary: t.hero.ctaSecondary,
+  };
 
-  const subtitle = slide?.subtitle || t.hero.eyebrow;
-  const headline = slide?.headline || t.hero.heading;
-  const description = slide?.description || t.hero.body;
-  const ctaPrimaryText = slide?.ctaPrimaryText || t.hero.ctaPrimary;
-  const ctaPrimaryUrl = slide?.ctaPrimaryUrl || "/contact";
-  const ctaSecondaryText = slide?.ctaSecondaryText || t.hero.ctaSecondary;
-  const ctaSecondaryUrl = slide?.ctaSecondaryUrl || "/proiecte";
+  // Build a default slide if none from CMS
+  const activeSlides: HeroSlideData[] = slides.length > 0 ? slides : [{
+    type: "video",
+    videoUrl: "/clip_website_landscape.mp4?v=2",
+    imageUrl: null,
+    posterUrl: null,
+    subtitle: null,
+    headline: t.hero.heading,
+    description: t.hero.body,
+    ctaPrimaryText: t.hero.ctaPrimary,
+    ctaPrimaryUrl: "/contact",
+    ctaSecondaryText: t.hero.ctaSecondary,
+    ctaSecondaryUrl: "/proiecte",
+  }];
 
-  // Determine background media
-  const isVideo = slide?.type === "video" || (!slide && true); // default to video
-  const videoSrc = slide?.videoUrl || "/clip_website_landscape.mp4?v=2";
-  const imageSrc = slide?.imageUrl || null;
-  const posterSrc = slide?.posterUrl || null;
+  const activeSlide = activeSlides[current] || activeSlides[0];
 
   return (
     <section
@@ -93,29 +279,28 @@ export function HeroClient({ slides }: { slides: HeroSlideData[] }) {
     >
       {/* Layer 1 — Background media */}
       <div className="absolute inset-0 z-0 bg-black">
-        {isVideo ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster={posterSrc || undefined}
-            className="w-full h-full object-cover object-center"
-            style={{
-              filter: `blur(${V.blur}px) contrast(${V.contrast}) brightness(${V.brightness}) saturate(${V.saturate})`,
-              transform: `scale(${V.scale})`,
-            }}
-          >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        ) : imageSrc ? (
-          <img
-            src={imageSrc}
-            alt={headline}
-            className="w-full h-full object-cover object-center"
+        {isSlider ? (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              variants={transitionVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="absolute inset-0"
+            >
+              <SlideBackground
+                slide={activeSlide}
+                videoRef={activeSlide.type === "video" ? videoRef : undefined}
+              />
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          <SlideBackground
+            slide={activeSlide}
+            videoRef={activeSlide.type === "video" ? videoRef : undefined}
           />
-        ) : null}
+        )}
       </div>
 
       {/* Layer 2 — Gradient overlay */}
@@ -138,74 +323,38 @@ export function HeroClient({ slides }: { slides: HeroSlideData[] }) {
 
       {/* Hero content */}
       <div className="container-wide relative z-[3] w-full pt-32 pb-20">
-        <div className="max-w-3xl">
-          <motion.p
-            custom={0}
-            variants={fadeUp}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="text-label text-gold mb-6"
-          >
-            {subtitle}
-          </motion.p>
-
-          <motion.h1
-            custom={1}
-            variants={fadeUp}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="text-display text-white max-w-2xl"
-          >
-            {headline}
-          </motion.h1>
-
-          <motion.div
-            custom={2}
-            variants={fadeUp}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="accent-line my-8"
-          />
-
-          {description && (
-            <motion.p
-              custom={3}
-              variants={fadeUp}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              className="text-body-lg text-white/70 max-w-xl leading-relaxed"
+        {isSlider ? (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.3 } }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.4 } }}
             >
-              {description}
-            </motion.p>
-          )}
+              <SlideContent slide={activeSlide} isInView={true} fallback={fallback} />
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          <SlideContent slide={activeSlide} isInView={isInView} fallback={fallback} />
+        )}
 
-          <motion.div
-            custom={4}
-            variants={fadeUp}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="flex flex-wrap items-center gap-4 mt-10"
-          >
-            {ctaPrimaryText && (
-              <Link
-                href={ctaPrimaryUrl}
-                className="group inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium bg-gold text-stone-900 rounded-full hover:bg-gold-light transition-all duration-300"
-              >
-                {ctaPrimaryText}
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            )}
-
-            {ctaSecondaryText && (
-              <Link
-                href={ctaSecondaryUrl}
-                className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-medium text-white border border-white/30 rounded-full hover:border-white/60 hover:bg-white/5 transition-all duration-300"
-              >
-                {ctaSecondaryText}
-              </Link>
-            )}
-          </motion.div>
-        </div>
+        {/* Navigation dots */}
+        {isSlider && showNav && (
+          <div className="flex items-center gap-2 mt-10">
+            {activeSlides.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goTo(idx)}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  idx === current
+                    ? "bg-gold w-8"
+                    : "bg-white/30 hover:bg-white/60"
+                }`}
+                aria-label={`Slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

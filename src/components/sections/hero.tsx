@@ -1,6 +1,6 @@
-import { getHeroSlides } from "@/lib/payload";
+import { getHeroSlides, getHeroConfig } from "@/lib/payload";
 import { HeroClient } from "./hero-client";
-import type { HeroSlideData } from "./hero-client";
+import type { HeroSlideData, HeroConfigData } from "./hero-client";
 
 function getMediaUrl(media: any): string | null {
   if (!media) return null;
@@ -10,9 +10,20 @@ function getMediaUrl(media: any): string | null {
 
 export async function Hero() {
   let slides: HeroSlideData[] = [];
+  let config: HeroConfigData = {
+    displayMode: "single",
+    transitionDuration: 8,
+    transitionType: "crossfade",
+    autoplay: true,
+    showNavigation: true,
+  };
 
   try {
-    const raw = await getHeroSlides();
+    const [raw, rawConfig] = await Promise.all([
+      getHeroSlides(),
+      getHeroConfig(),
+    ]);
+
     slides = raw.map((s: any) => ({
       type: s.type || "video",
       videoUrl: getMediaUrl(s.videoFile),
@@ -26,10 +37,19 @@ export async function Hero() {
       ctaSecondaryText: s.ctaSecondaryText || null,
       ctaSecondaryUrl: s.ctaSecondaryUrl || null,
     }));
+
+    if (rawConfig) {
+      config = {
+        displayMode: rawConfig.displayMode || "single",
+        transitionDuration: rawConfig.transitionDuration || 8,
+        transitionType: rawConfig.transitionType || "crossfade",
+        autoplay: rawConfig.autoplay ?? true,
+        showNavigation: rawConfig.showNavigation ?? true,
+      };
+    }
   } catch (e) {
-    // Fallback: HeroClient handles empty slides gracefully
-    console.error("Failed to fetch hero slides:", e);
+    console.error("Failed to fetch hero data:", e);
   }
 
-  return <HeroClient slides={slides} />;
+  return <HeroClient slides={slides} config={config} />;
 }
