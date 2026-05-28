@@ -194,14 +194,14 @@ function SlideContent({
 /* ── Crossfade transition variants ───────────────────────── */
 const crossfade = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 1.2, ease: "easeInOut" } },
-  exit: { opacity: 0, transition: { duration: 1.2, ease: "easeInOut" } },
+  animate: { opacity: 1, transition: { duration: 1.2, ease: "easeInOut" as const } },
+  exit: { opacity: 0, transition: { duration: 1.2, ease: "easeInOut" as const } },
 };
 
 const fadeThroughBlack = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.8, ease: "easeIn" } },
-  exit: { opacity: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  animate: { opacity: 1, transition: { duration: 0.8, ease: "easeIn" as const } },
+  exit: { opacity: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
 /* ── Main Hero component ─────────────────────────────────── */
