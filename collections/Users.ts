@@ -105,12 +105,11 @@ export const Users: CollectionConfig = {
     },
   },
   fields: [
-    { name: 'name', type: 'text', label: 'Nume', required: true },
+    { name: 'name', type: 'text', label: 'Nume' },
     {
       name: 'role',
       type: 'select',
       label: 'Rol',
-      required: true,
       defaultValue: 'editor',
       options: [
         { label: 'Administrator', value: 'admin' },

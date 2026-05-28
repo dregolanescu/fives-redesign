@@ -128,45 +128,47 @@ function SlideBackground({
 function SlideContent({
   slide,
   isInView,
-  fallback,
 }: {
   slide: HeroSlideData;
   isInView: boolean;
-  fallback: { eyebrow: string; heading: string; body: string; ctaPrimary: string; ctaSecondary: string };
 }) {
   const { lang } = useLanguage();
   const isEn = lang === "en";
 
-  // Pick the right language — fall back to RO if EN is empty
-  const subtitle = (isEn && slide.subtitleEn) || slide.subtitle || fallback.eyebrow;
-  const headline = (isEn && slide.headlineEn) || slide.headline || fallback.heading;
-  const description = (isEn && slide.descriptionEn) || slide.description || fallback.body;
-  const ctaPrimaryText = (isEn && slide.ctaPrimaryTextEn) || slide.ctaPrimaryText || fallback.ctaPrimary;
+  // Pick the right language — fall back to RO if EN is empty, no hardcoded fallback
+  const subtitle = (isEn && slide.subtitleEn) || slide.subtitle || null;
+  const headline = (isEn && slide.headlineEn) || slide.headline || null;
+  const description = (isEn && slide.descriptionEn) || slide.description || null;
+  const ctaPrimaryText = (isEn && slide.ctaPrimaryTextEn) || slide.ctaPrimaryText || null;
   const ctaPrimaryUrl = slide.ctaPrimaryUrl || "/contact";
-  const ctaSecondaryText = (isEn && slide.ctaSecondaryTextEn) || slide.ctaSecondaryText || fallback.ctaSecondary;
+  const ctaSecondaryText = (isEn && slide.ctaSecondaryTextEn) || slide.ctaSecondaryText || null;
   const ctaSecondaryUrl = slide.ctaSecondaryUrl || "/proiecte";
 
   return (
     <div className="max-w-3xl">
-      <motion.p
-        custom={0}
-        variants={fadeUp}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className="text-label text-gold mb-6"
-      >
-        {subtitle}
-      </motion.p>
+      {subtitle && (
+        <motion.p
+          custom={0}
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-label text-gold mb-6"
+        >
+          {subtitle}
+        </motion.p>
+      )}
 
-      <motion.h1
-        custom={1}
-        variants={fadeUp}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className="text-display text-white max-w-2xl"
-      >
-        {headline}
-      </motion.h1>
+      {headline && (
+        <motion.h1
+          custom={1}
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-display text-white max-w-2xl"
+        >
+          {headline}
+        </motion.h1>
+      )}
 
       <motion.div
         custom={2}
@@ -242,8 +244,6 @@ export function HeroClient({
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  const { t } = useLanguage();
-
   const isSlider = (config?.displayMode === "slider") && slides.length > 1;
   const duration = config?.transitionDuration || 8;
   const autoplay = config?.autoplay ?? true;
@@ -272,37 +272,10 @@ export function HeroClient({
     }
   }, [current]);
 
-  // Fallback text from translations
-  const fallback = {
-    eyebrow: t.hero.eyebrow,
-    heading: t.hero.heading,
-    body: t.hero.body,
-    ctaPrimary: t.hero.ctaPrimary,
-    ctaSecondary: t.hero.ctaSecondary,
-  };
+  // If no active slides from CMS, don't render the hero
+  if (slides.length === 0) return null;
 
-  // Fallback slide only if CMS has zero active slides (safety net)
-  const activeSlides: HeroSlideData[] = slides.length > 0 ? slides : [{
-    type: "image",
-    videoUrl: null,
-    imageUrl: null,
-    posterUrl: null,
-    overlayStrength: "strong" as const,
-    subtitle: null,
-    headline: t.hero.heading,
-    description: null,
-    ctaPrimaryText: null,
-    ctaSecondaryText: null,
-    subtitleEn: null,
-    headlineEn: null,
-    descriptionEn: null,
-    ctaPrimaryTextEn: null,
-    ctaSecondaryTextEn: null,
-    ctaPrimaryUrl: "/contact",
-    ctaSecondaryUrl: "/proiecte",
-  }];
-
-  const activeSlide = activeSlides[current] || activeSlides[0];
+  const activeSlide = slides[current] || slides[0];
 
   return (
     <section
@@ -364,17 +337,17 @@ export function HeroClient({
               animate={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.3 } }}
               exit={{ opacity: 0, y: -10, transition: { duration: 0.4 } }}
             >
-              <SlideContent slide={activeSlide} isInView={true} fallback={fallback} />
+              <SlideContent slide={activeSlide} isInView={true} />
             </motion.div>
           </AnimatePresence>
         ) : (
-          <SlideContent slide={activeSlide} isInView={isInView} fallback={fallback} />
+          <SlideContent slide={activeSlide} isInView={isInView} />
         )}
 
         {/* Navigation dots */}
         {isSlider && showNav && (
           <div className="flex items-center gap-2 mt-10">
-            {activeSlides.map((_, idx) => (
+            {slides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => goTo(idx)}

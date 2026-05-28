@@ -18,11 +18,11 @@ export const Articles: CollectionConfig = {
   fields: [
     /* ── Shared fields (not language-specific) ── */
     { name: 'slug', type: 'text', label: 'Slug', index: true, unique: true, admin: { position: 'sidebar' } },
-    { name: 'status', type: 'select', label: 'Status', required: true, defaultValue: 'draft',
+    { name: 'status', type: 'select', label: 'Status', defaultValue: 'draft',
       options: [{ label: 'Draft', value: 'draft' },{ label: 'Publicat', value: 'published' }],
       admin: { position: 'sidebar' } },
-    { name: 'publishedDate', type: 'date', label: 'Data publicarii', required: true, admin: { position: 'sidebar' } },
-    { name: 'category', type: 'select', label: 'Categorie', required: true,
+    { name: 'publishedDate', type: 'date', label: 'Data publicarii', admin: { position: 'sidebar' } },
+    { name: 'category', type: 'select', label: 'Categorie',
       options: [{ label: 'Festival', value: 'Festival' },{ label: 'Corporate', value: 'Corporate' },
                 { label: 'Tehnologie', value: 'Tehnologie' },{ label: 'Companie', value: 'Companie' }] },
     { name: 'featuredImage', type: 'upload', relationTo: 'media', label: 'Imagine principala' },
@@ -36,8 +36,8 @@ export const Articles: CollectionConfig = {
           label: 'Romana',
           description: 'Continutul articolului in limba romana',
           fields: [
-            { name: 'title', type: 'text', label: 'Titlu', required: true },
-            { name: 'excerpt', type: 'textarea', label: 'Rezumat', required: true,
+            { name: 'title', type: 'text', label: 'Titlu' },
+            { name: 'excerpt', type: 'textarea', label: 'Rezumat',
               admin: { description: 'Apare pe pagina de Noutati (lista) si in SEO.' } },
             { name: 'content', type: 'richText', label: 'Continut articol',
               admin: { description: 'Textul complet. Apasa "/" pentru optiuni de formatare.' } },

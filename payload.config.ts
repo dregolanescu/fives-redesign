@@ -10,6 +10,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Articles } from './collections/Articles'
 import { HeroSlides } from './collections/HeroSlides'
+import { Projects } from './collections/Projects'
 import { HeroConfig } from './globals/HeroConfig'
 
 const filename = fileURLToPath(import.meta.url)
@@ -34,7 +35,7 @@ export default buildConfig({
     },
     theme: 'light',
   },
-  collections: [Users, Media, Articles, HeroSlides],
+  collections: [Users, Media, Articles, HeroSlides, Projects],
   globals: [HeroConfig],
   editor: lexicalEditor(),
   db: sqliteAdapter({ client: dbConfig, push: true }),

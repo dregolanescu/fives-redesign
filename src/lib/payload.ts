@@ -41,3 +41,24 @@ export async function getHeroConfig() {
   const payload = await getPayloadClient()
   return payload.findGlobal({ slug: 'hero-config' })
 }
+
+export async function getPublishedProjects() {
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'projects',
+    where: { status: { equals: 'published' } },
+    sort: 'order',
+    limit: 50,
+  })
+  return result.docs
+}
+
+export async function getProjectBySlug(slug: string) {
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'projects',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  })
+  return result.docs[0] || null
+}

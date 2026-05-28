@@ -4,7 +4,7 @@ export const HeroSlides: CollectionConfig = {
   admin: { useAsTitle: 'headline', defaultColumns: ['headline','type','order','active'] },
   fields: [
     /* ── Media & overlay (shared, not language-specific) ── */
-    { name: 'type', type: 'select', label: 'Tip media', required: true, defaultValue: 'video',
+    { name: 'type', type: 'select', label: 'Tip media', defaultValue: 'video',
       options: [{ label: 'Video', value: 'video' },{ label: 'Imagine', value: 'image' }] },
     { name: 'videoFile', type: 'upload', relationTo: 'media', label: 'Video MP4',
       admin: { condition: (d) => d?.type === 'video' } },
@@ -32,7 +32,7 @@ export const HeroSlides: CollectionConfig = {
           fields: [
             { name: 'subtitle', type: 'text', label: 'Subtitlu',
               admin: { description: 'Textul mic de deasupra titlului. Ex: „Productie tehnica de evenimente"' } },
-            { name: 'headline', type: 'text', label: 'Titlu principal', required: true,
+            { name: 'headline', type: 'text', label: 'Titlu principal',
               admin: { description: 'Titlul mare din hero. Scurt si de impact.' } },
             { name: 'description', type: 'textarea', label: 'Descriere',
               admin: { description: 'Textul explicativ de sub titlu (optional).' } },
@@ -68,7 +68,7 @@ export const HeroSlides: CollectionConfig = {
       admin: { placeholder: '/proiecte', description: 'Link-ul butonului secundar. Cale relativa, ex: /proiecte' } },
 
     /* ── Sidebar controls ── */
-    { name: 'order', type: 'number', label: 'Ordine', required: true, defaultValue: 1, admin: { position: 'sidebar' } },
+    { name: 'order', type: 'number', label: 'Ordine', defaultValue: 1, admin: { position: 'sidebar' } },
     { name: 'active', type: 'checkbox', label: 'Activ', defaultValue: true,
       admin: {
         position: 'sidebar',
