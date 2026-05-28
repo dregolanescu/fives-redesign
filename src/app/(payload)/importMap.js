@@ -31,6 +31,8 @@ import { QueryPresetsWhereField as QueryPresetsWhereField_0 } from '@payloadcms/
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_0 } from '@payloadcms/storage-vercel-blob/client'
 import { default as CustomLogo } from '../../components/admin/Logo'
 import { default as CustomIcon } from '../../components/admin/Icon'
+import { default as ActiveToggle } from '../../components/admin/ActiveToggle'
+import { default as ActiveCell } from '../../components/admin/ActiveCell'
 
 /** @type {import('payload').ImportMap} */
 export const importMap = {
@@ -67,4 +69,6 @@ export const importMap = {
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_0,
   "@/components/admin/Logo#default": CustomLogo,
   "@/components/admin/Icon#default": CustomIcon,
+  "@/components/admin/ActiveToggle#default": ActiveToggle,
+  "@/components/admin/ActiveCell#default": ActiveCell,
 }
