@@ -269,14 +269,14 @@ export function HeroClient({
     ctaSecondary: t.hero.ctaSecondary,
   };
 
-  // Build a default slide if none from CMS
+  // Fallback slide only if CMS has zero active slides (safety net)
   const activeSlides: HeroSlideData[] = slides.length > 0 ? slides : [{
-    type: "video",
-    videoUrl: "/clip_website_landscape.mp4?v=2",
+    type: "image",
+    videoUrl: null,
     imageUrl: null,
     posterUrl: null,
-    overlayStrength: "light" as const,
-    subtitle: null,
+    overlayStrength: "strong" as const,
+    subtitle: t.hero.eyebrow,
     headline: t.hero.heading,
     description: t.hero.body,
     ctaPrimaryText: t.hero.ctaPrimary,
