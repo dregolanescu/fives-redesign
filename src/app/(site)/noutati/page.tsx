@@ -15,9 +15,10 @@ export default async function NoutatiPage() {
     category: doc.category,
     publishedDate: doc.publishedDate,
     readTime: doc.readTime,
-    featuredImage: doc.featuredImage
-      ? { url: typeof doc.featuredImage === "object" ? doc.featuredImage.url : `/api/media/${doc.featuredImage}` }
-      : null,
+    featuredImage:
+      doc.featuredImage && typeof doc.featuredImage === "object" && doc.featuredImage.url
+        ? { url: doc.featuredImage.url }
+        : null,
   }));
 
   return <NoutatiClient articles={articles} />;

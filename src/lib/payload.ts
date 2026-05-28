@@ -12,6 +12,7 @@ export async function getPublishedArticles() {
     where: { status: { equals: 'published' } },
     sort: '-publishedDate',
     limit: 20,
+    depth: 2,
   })
   return result.docs
 }
@@ -22,6 +23,7 @@ export async function getArticleBySlug(slug: string) {
     collection: 'articles',
     where: { slug: { equals: slug } },
     limit: 1,
+    depth: 2,
   })
   return result.docs[0] || null
 }
@@ -33,13 +35,14 @@ export async function getHeroSlides() {
     where: { active: { equals: true } },
     sort: 'order',
     limit: 10,
+    depth: 2,
   })
   return result.docs
 }
 
 export async function getHeroConfig() {
   const payload = await getPayloadClient()
-  return payload.findGlobal({ slug: 'hero-config' })
+  return payload.findGlobal({ slug: 'hero-config', depth: 2 })
 }
 
 export async function getPublishedProjects() {
@@ -49,6 +52,7 @@ export async function getPublishedProjects() {
     where: { status: { equals: 'published' } },
     sort: 'order',
     limit: 50,
+    depth: 2,
   })
   return result.docs
 }
@@ -59,6 +63,7 @@ export async function getProjectBySlug(slug: string) {
     collection: 'projects',
     where: { slug: { equals: slug } },
     limit: 1,
+    depth: 2,
   })
   return result.docs[0] || null
 }
