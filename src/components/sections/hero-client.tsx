@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -57,8 +57,16 @@ function getMediaUrl(media: any): string | null {
 
 export function HeroClient({ slides }: { slides: HeroSlideData[] }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const { t } = useLanguage();
+
+  // Ensure video autoplay works after hydration
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   // Use first active slide, or fall back to translations
   const slide = slides[0] || null;
@@ -87,6 +95,7 @@ export function HeroClient({ slides }: { slides: HeroSlideData[] }) {
       <div className="absolute inset-0 z-0 bg-black">
         {isVideo ? (
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
