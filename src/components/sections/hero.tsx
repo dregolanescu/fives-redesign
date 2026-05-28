@@ -30,12 +30,20 @@ export async function Hero() {
       imageUrl: getMediaUrl(s.image),
       posterUrl: getMediaUrl(s.posterImage),
       overlayStrength: s.overlayStrength || "medium",
+      /* RO */
       subtitle: s.subtitle || null,
       headline: s.headline,
       description: s.description || null,
       ctaPrimaryText: s.ctaPrimaryText || null,
-      ctaPrimaryUrl: s.ctaPrimaryUrl || null,
       ctaSecondaryText: s.ctaSecondaryText || null,
+      /* EN */
+      subtitleEn: s.subtitleEn || null,
+      headlineEn: s.headlineEn || null,
+      descriptionEn: s.descriptionEn || null,
+      ctaPrimaryTextEn: s.ctaPrimaryTextEn || null,
+      ctaSecondaryTextEn: s.ctaSecondaryTextEn || null,
+      /* Shared */
+      ctaPrimaryUrl: s.ctaPrimaryUrl || null,
       ctaSecondaryUrl: s.ctaSecondaryUrl || null,
     }));
 

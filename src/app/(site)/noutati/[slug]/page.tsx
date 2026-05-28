@@ -22,20 +22,22 @@ export default async function ArticlePage({
 
   const articleData = {
     title: article.title,
+    titleEn: (article as any).titleEn || null,
     slug: article.slug,
     category: article.category,
     publishedDate: article.publishedDate,
     readTime: article.readTime || 5,
     excerpt: article.excerpt,
+    excerptEn: (article as any).excerptEn || null,
     featuredImageUrl: article.featuredImage
       ? typeof article.featuredImage === "object"
         ? (article.featuredImage as any).url
         : null
       : null,
-    // Pass the raw Lexical content for proper rendering
     content: article.content || null,
-    prev: prevArticle ? { slug: (prevArticle as any).slug, title: (prevArticle as any).title } : null,
-    next: nextArticle ? { slug: (nextArticle as any).slug, title: (nextArticle as any).title } : null,
+    contentEn: (article as any).contentEn || null,
+    prev: prevArticle ? { slug: (prevArticle as any).slug, title: (prevArticle as any).title, titleEn: (prevArticle as any).titleEn || null } : null,
+    next: nextArticle ? { slug: (nextArticle as any).slug, title: (nextArticle as any).title, titleEn: (nextArticle as any).titleEn || null } : null,
   };
 
   return <ArticleClient article={articleData} />;

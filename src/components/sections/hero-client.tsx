@@ -12,12 +12,20 @@ export type HeroSlideData = {
   imageUrl: string | null;
   posterUrl: string | null;
   overlayStrength: "none" | "light" | "medium" | "strong";
+  /* RO fields */
   subtitle: string | null;
   headline: string;
   description: string | null;
   ctaPrimaryText: string | null;
-  ctaPrimaryUrl: string | null;
   ctaSecondaryText: string | null;
+  /* EN fields */
+  subtitleEn: string | null;
+  headlineEn: string | null;
+  descriptionEn: string | null;
+  ctaPrimaryTextEn: string | null;
+  ctaSecondaryTextEn: string | null;
+  /* Shared links */
+  ctaPrimaryUrl: string | null;
   ctaSecondaryUrl: string | null;
 };
 
@@ -126,12 +134,16 @@ function SlideContent({
   isInView: boolean;
   fallback: { eyebrow: string; heading: string; body: string; ctaPrimary: string; ctaSecondary: string };
 }) {
-  const subtitle = slide.subtitle || fallback.eyebrow;
-  const headline = slide.headline || fallback.heading;
-  const description = slide.description || fallback.body;
-  const ctaPrimaryText = slide.ctaPrimaryText || fallback.ctaPrimary;
+  const { lang } = useLanguage();
+  const isEn = lang === "en";
+
+  // Pick the right language — fall back to RO if EN is empty
+  const subtitle = (isEn && slide.subtitleEn) || slide.subtitle || fallback.eyebrow;
+  const headline = (isEn && slide.headlineEn) || slide.headline || fallback.heading;
+  const description = (isEn && slide.descriptionEn) || slide.description || fallback.body;
+  const ctaPrimaryText = (isEn && slide.ctaPrimaryTextEn) || slide.ctaPrimaryText || fallback.ctaPrimary;
   const ctaPrimaryUrl = slide.ctaPrimaryUrl || "/contact";
-  const ctaSecondaryText = slide.ctaSecondaryText || fallback.ctaSecondary;
+  const ctaSecondaryText = (isEn && slide.ctaSecondaryTextEn) || slide.ctaSecondaryText || fallback.ctaSecondary;
   const ctaSecondaryUrl = slide.ctaSecondaryUrl || "/proiecte";
 
   return (
@@ -276,12 +288,17 @@ export function HeroClient({
     imageUrl: null,
     posterUrl: null,
     overlayStrength: "strong" as const,
-    subtitle: t.hero.eyebrow,
+    subtitle: null,
     headline: t.hero.heading,
-    description: t.hero.body,
-    ctaPrimaryText: t.hero.ctaPrimary,
+    description: null,
+    ctaPrimaryText: null,
+    ctaSecondaryText: null,
+    subtitleEn: null,
+    headlineEn: null,
+    descriptionEn: null,
+    ctaPrimaryTextEn: null,
+    ctaSecondaryTextEn: null,
     ctaPrimaryUrl: "/contact",
-    ctaSecondaryText: t.hero.ctaSecondary,
     ctaSecondaryUrl: "/proiecte",
   }];
 

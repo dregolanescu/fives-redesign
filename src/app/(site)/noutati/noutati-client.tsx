@@ -9,7 +9,9 @@ import { useLanguage } from "@/lib/i18n";
 export type ArticleItem = {
   slug: string;
   title: string;
+  titleEn: string | null;
   excerpt: string;
+  excerptEn: string | null;
   category: string;
   publishedDate: string;
   readTime: number | null;
@@ -67,6 +69,9 @@ function FeaturedCard({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const imgSrc = article.featuredImage?.url || "/untold.jpg";
+  const isEn = lang === "en";
+  const title = (isEn && article.titleEn) || article.title;
+  const excerpt = (isEn && article.excerptEn) || article.excerpt;
 
   return (
     <motion.div ref={ref} initial="hidden" animate={isInView ? "visible" : "hidden"} variants={fadeUp}>
@@ -75,7 +80,7 @@ function FeaturedCard({
           <div className="relative aspect-[16/9] lg:aspect-[4/3] rounded-lg overflow-hidden">
             <img
               src={imgSrc}
-              alt={article.title}
+              alt={title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             />
           </div>
@@ -87,9 +92,9 @@ function FeaturedCard({
               </span>
             </div>
             <h2 className="text-title font-bold text-stone-900 group-hover:text-gold-dark transition-colors duration-300">
-              {article.title}
+              {title}
             </h2>
-            <p className="text-body-lg text-stone-500 leading-relaxed">{article.excerpt}</p>
+            <p className="text-body-lg text-stone-500 leading-relaxed">{excerpt}</p>
             <div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-2 text-stone-400">
                 <Calendar className="w-4 h-4" />
@@ -115,6 +120,9 @@ function ArticleCard({
   lang: string;
 }) {
   const imgSrc = article.featuredImage?.url || "/untold.jpg";
+  const isEn = lang === "en";
+  const title = (isEn && article.titleEn) || article.title;
+  const excerpt = (isEn && article.excerptEn) || article.excerpt;
 
   return (
     <motion.div variants={fadeUp}>
@@ -123,7 +131,7 @@ function ArticleCard({
           <div className="relative aspect-[16/9] rounded-lg overflow-hidden mb-4">
             <img
               src={imgSrc}
-              alt={article.title}
+              alt={title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             />
           </div>
@@ -133,9 +141,9 @@ function ArticleCard({
               <span className="text-label text-stone-400">{article.readTime || 5} min</span>
             </div>
             <h3 className="text-title font-bold text-stone-900 group-hover:text-gold-dark transition-colors duration-300 flex-1">
-              {article.title}
+              {title}
             </h3>
-            <p className="text-body text-stone-500 line-clamp-2">{article.excerpt}</p>
+            <p className="text-body text-stone-500 line-clamp-2">{excerpt}</p>
             <div className="flex items-center gap-2 text-stone-400 pt-1">
               <Calendar className="w-4 h-4" />
               <span className="text-sm">{formatDate(article.publishedDate, lang)}</span>

@@ -9,15 +9,18 @@ import { LexicalRenderer } from "@/lib/lexical-renderer";
 
 export type ArticleData = {
   title: string;
+  titleEn: string | null;
   slug: string;
   category: string;
   publishedDate: string;
   readTime: number;
   excerpt: string;
+  excerptEn: string | null;
   featuredImageUrl: string | null;
   content: any;
-  prev: { slug: string; title: string } | null;
-  next: { slug: string; title: string } | null;
+  contentEn: any;
+  prev: { slug: string; title: string; titleEn?: string | null } | null;
+  next: { slug: string; title: string; titleEn?: string | null } | null;
 };
 
 const fadeUp = {
@@ -52,6 +55,14 @@ function formatDate(dateStr: string, lang: string) {
 export function ArticleClient({ article }: { article: ArticleData }) {
   const { t, lang } = useLanguage();
   const nd = t.news.detail;
+  const isEn = lang === "en";
+
+  // Language-aware content
+  const title = (isEn && article.titleEn) || article.title;
+  const excerpt = (isEn && article.excerptEn) || article.excerpt;
+  const content = (isEn && article.contentEn) || article.content;
+  const prevTitle = article.prev ? ((isEn && article.prev.titleEn) || article.prev.title) : null;
+  const nextTitle = article.next ? ((isEn && article.next.titleEn) || article.next.title) : null;
 
   const heroRef = useRef<HTMLDivElement>(null);
   const heroInView = useInView(heroRef, { once: true, margin: "-50px" });
@@ -68,7 +79,7 @@ export function ArticleClient({ article }: { article: ArticleData }) {
       <div data-theme="dark" className="relative min-h-[500px] h-[70vh] w-full overflow-hidden">
         <img
           src={heroSrc}
-          alt={article.title}
+          alt={title}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -120,7 +131,7 @@ export function ArticleClient({ article }: { article: ArticleData }) {
             variants={fadeUp}
             className="text-display font-bold text-stone-900 mb-8"
           >
-            {article.title}
+            {title}
           </motion.h1>
 
           <motion.div variants={fadeUp}>
@@ -136,11 +147,11 @@ export function ArticleClient({ article }: { article: ArticleData }) {
           variants={fadeUp}
           className="space-y-6 mb-16"
         >
-          {article.content ? (
-            <LexicalRenderer content={article.content} />
-          ) : article.excerpt ? (
+          {content ? (
+            <LexicalRenderer content={content} />
+          ) : excerpt ? (
             <p className="text-body-lg text-stone-600 leading-relaxed">
-              {article.excerpt}
+              {excerpt}
             </p>
           ) : null}
         </motion.div>
@@ -182,7 +193,7 @@ export function ArticleClient({ article }: { article: ArticleData }) {
                     {nd.prevArticle}
                   </span>
                   <p className="text-sm font-bold text-stone-700 group-hover:text-gold-dark transition-colors line-clamp-2">
-                    {article.prev.title}
+                    {prevTitle}
                   </p>
                 </Link>
               ) : (
@@ -200,7 +211,7 @@ export function ArticleClient({ article }: { article: ArticleData }) {
                     <ArrowRight className="w-3 h-3" />
                   </span>
                   <p className="text-sm font-bold text-stone-700 group-hover:text-gold-dark transition-colors line-clamp-2">
-                    {article.next.title}
+                    {nextTitle}
                   </p>
                 </Link>
               ) : (

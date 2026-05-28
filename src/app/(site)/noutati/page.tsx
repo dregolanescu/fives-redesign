@@ -9,7 +9,9 @@ export default async function NoutatiPage() {
   const articles: ArticleItem[] = docs.map((doc: any) => ({
     slug: doc.slug,
     title: doc.title,
+    titleEn: doc.titleEn || null,
     excerpt: doc.excerpt,
+    excerptEn: doc.excerptEn || null,
     category: doc.category,
     publishedDate: doc.publishedDate,
     readTime: doc.readTime,
