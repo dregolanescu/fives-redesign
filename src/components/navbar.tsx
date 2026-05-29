@@ -129,12 +129,15 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          // transition-colors (not transition-all) so backdrop-blur + border-width
+          // don't animate on the scroll threshold — that caused a white line flash.
+          // border-b is always present (transparent at top) so only its COLOR animates.
+          "fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300",
           scrolled
             ? isOverDark
-              ? "bg-stone-950/70 backdrop-blur-lg border-b border-white/10"
-              : "bg-white/70 backdrop-blur-lg border-b border-stone-200/60"
-            : "bg-transparent"
+              ? "bg-stone-950/70 backdrop-blur-lg border-white/10"
+              : "bg-white/70 backdrop-blur-lg border-stone-200/60"
+            : "bg-transparent border-transparent"
         )}
       >
         <nav className="container-wide flex items-center justify-between h-20">
