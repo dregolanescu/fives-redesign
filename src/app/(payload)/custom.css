@@ -865,6 +865,27 @@ a:not(.btn):not(.nav__link):not(.step-nav__home):hover {
   color: var(--text-muted) !important;
 }
 
+/* ═══ PAGINATION — fix gray-on-gray (was #2F2F2F text on dark bg) ═══ */
+.paginator__page,
+.page-controls .paginator__page {
+  color: var(--text-secondary) !important;
+}
+.paginator__page:hover {
+  color: var(--text-primary) !important;
+}
+.paginator__page--is-current {
+  color: var(--fives-gold) !important;
+  background: var(--surface-elevated) !important;
+  font-weight: 600 !important;
+}
+.clickable-arrow {
+  color: var(--text-secondary) !important;
+}
+.clickable-arrow--is-disabled {
+  color: var(--text-muted) !important;
+  opacity: 0.5 !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    LIST SELECTION BAR — Select all / Edit / Delete
    ═══════════════════════════════════════════════════════ */

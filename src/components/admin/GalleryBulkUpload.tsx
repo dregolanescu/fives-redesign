@@ -142,7 +142,7 @@ export default function GalleryBulkUpload() {
         <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-primary, #F2F0EA)" }}>
           {busy ? `Se incarca... ${progress.done}/${progress.total}` : "Incarca mai multe poze deodata"}
         </div>
-        <div style={{ marginTop: 6, fontSize: "0.8rem", color: "var(--text-muted, #85827A)" }}>
+        <div style={{ marginTop: 6, fontSize: "0.8rem", color: "var(--text-secondary, #B8B5AD)" }}>
           Trage pozele aici sau da click pentru a selecta. Se urca automat si se adauga in galeria de mai jos.
         </div>
       </div>

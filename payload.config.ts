@@ -38,6 +38,24 @@ export default buildConfig({
   collections: [Users, Media, Articles, HeroSlides, Projects],
   globals: [HeroConfig],
   editor: lexicalEditor(),
+  i18n: {
+    translations: {
+      en: {
+        upload: {
+          selectFile: 'Select files',
+          dragAndDrop: 'Drag and drop files',
+          dragAndDropHere: 'or drag and drop files here',
+        },
+      },
+      ro: {
+        upload: {
+          selectFile: 'Selecteaza fisiere',
+          dragAndDrop: 'Trage si plaseaza fisiere',
+          dragAndDropHere: 'sau trage fisierele aici',
+        },
+      },
+    },
+  },
   db: sqliteAdapter({ client: dbConfig, push: true }),
   sharp,
   upload: { limits: { fileSize: 20_000_000 } },
