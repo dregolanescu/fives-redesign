@@ -355,6 +355,8 @@ export function ProjectClient({ project }: { project: ProjectData }) {
                   <img
                     src={img.url}
                     alt={img.caption || `${title} — ${i + 1}`}
+                    loading="lazy"
+                    decoding="async"
                     className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${isLoneLast ? "aspect-[16/10] md:aspect-[2/1]" : "aspect-[16/10]"}`}
                   />
                 </motion.div>

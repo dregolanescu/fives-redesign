@@ -52,7 +52,11 @@ export async function getPublishedProjects() {
     where: { status: { equals: 'published' } },
     sort: 'order',
     limit: 50,
-    depth: 2,
+    depth: 1, // heroImage populates at depth 1; list cards don't need gallery/metrics
+    select: {
+      slug: true, category: true, year: true, order: true, status: true,
+      heroImage: true, title: true, titleEn: true, description: true, descriptionEn: true,
+    },
   })
   return result.docs
 }
