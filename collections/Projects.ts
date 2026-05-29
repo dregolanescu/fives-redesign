@@ -104,6 +104,7 @@ export const Projects: CollectionConfig = {
       name: 'metrics', type: 'array', label: 'Metrici',
       admin: { description: 'Cifrele cheie ale proiectului (ex: 50.000 participanti, 3 scene)' },
       fields: [
+        { name: 'id', type: 'text', admin: { hidden: true } },
         { name: 'value', type: 'text', label: 'Valoare' },
         { name: 'label', type: 'text', label: 'Eticheta' },
         { name: 'labelEn', type: 'text', label: 'Label (EN)' },
@@ -115,6 +116,7 @@ export const Projects: CollectionConfig = {
       name: 'gallery', type: 'array', label: 'Galerie foto',
       admin: { description: 'Fotografii din proiect. Se afiseaza intr-un slider cu lightbox.' },
       fields: [
+        { name: 'id', type: 'text', admin: { hidden: true } },
         { name: 'image', type: 'upload', relationTo: 'media', label: 'Fotografie' },
         { name: 'caption', type: 'text', label: 'Descriere (optional)' },
       ],
