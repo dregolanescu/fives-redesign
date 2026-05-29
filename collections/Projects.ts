@@ -114,6 +114,13 @@ export const Projects: CollectionConfig = {
       ],
     },
 
+    /* ── Bulk photo upload — additive helper rendered above the gallery ── */
+    {
+      name: 'galleryBulkUpload',
+      type: 'ui',
+      admin: { components: { Field: '@/components/admin/GalleryBulkUpload' } },
+    },
+
     /* ── Photo gallery ── */
     {
       name: 'gallery', type: 'array', label: 'Galerie foto',
