@@ -2,7 +2,7 @@ import { getArticleBySlug, getPublishedArticles } from "@/lib/payload";
 import { ArticleClient } from "./article-client";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: cached HTML, regenerated >=5min OR on-demand via Payload revalidatePath hooks
 
 export default async function ArticlePage({
   params,

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 
 function slugify(t: string) {
   return t.toLowerCase().normalize('NFD').replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-')
@@ -15,6 +16,26 @@ export const Projects: CollectionConfig = {
       ({ data }) => {
         if (!data.slug && data.title) data.slug = slugify(data.title)
         return data
+      },
+    ],
+    afterChange: [
+      ({ doc }) => {
+        try {
+          revalidatePath('/')
+          revalidatePath('/proiecte')
+          if (doc?.slug) revalidatePath(`/proiecte/${doc.slug}`)
+        } catch { /* outside request context (e.g. scripts) */ }
+        return doc
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        try {
+          revalidatePath('/')
+          revalidatePath('/proiecte')
+          if (doc?.slug) revalidatePath(`/proiecte/${doc.slug}`)
+        } catch {}
+        return doc
       },
     ],
   },

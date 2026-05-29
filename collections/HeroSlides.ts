@@ -1,7 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 export const HeroSlides: CollectionConfig = {
   slug: 'hero-slides',
   admin: { useAsTitle: 'headline', defaultColumns: ['headline','type','order','active'] },
+  hooks: {
+    afterChange: [({ doc }) => { try { revalidatePath('/') } catch {} return doc }],
+    afterDelete: [({ doc }) => { try { revalidatePath('/') } catch {} return doc }],
+  },
   fields: [
     /* ── Media & overlay (shared, not language-specific) ── */
     { name: 'type', type: 'select', label: 'Tip media', defaultValue: 'video',

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 function slugify(t: string) {
   return t.toLowerCase().normalize('NFD').replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-')
 }
@@ -14,6 +15,24 @@ export const Articles: CollectionConfig = {
       }
       return data
     }],
+    afterChange: [
+      ({ doc }) => {
+        try {
+          revalidatePath('/noutati')
+          if (doc?.slug) revalidatePath(`/noutati/${doc.slug}`)
+        } catch {}
+        return doc
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        try {
+          revalidatePath('/noutati')
+          if (doc?.slug) revalidatePath(`/noutati/${doc.slug}`)
+        } catch {}
+        return doc
+      },
+    ],
   },
   fields: [
     /* ── Shared fields (not language-specific) ── */

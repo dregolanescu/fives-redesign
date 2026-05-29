@@ -2,7 +2,7 @@ import { getProjectBySlug, getPublishedProjects } from "@/lib/payload";
 import { ProjectClient } from "./project-client";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: cached HTML, regenerated >=5min OR on-demand via Payload revalidatePath hooks
 
 function getMediaUrl(media: any): string | null {
   if (!media) return null;

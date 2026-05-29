@@ -1,7 +1,7 @@
 import { getPublishedArticles } from "@/lib/payload";
 import { NoutatiClient, type ArticleItem } from "./noutati-client";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: cached HTML, regenerated >=5min OR on-demand via Payload revalidatePath hooks
 
 export default async function NoutatiPage() {
   const docs = await getPublishedArticles();

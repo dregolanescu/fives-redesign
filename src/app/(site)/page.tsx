@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: cached HTML, regenerated >=5min OR on-demand via Payload revalidatePath hooks
 
 import { Hero } from "@/components/sections/hero";
 import { CredibilityStrip } from "@/components/sections/credibility-strip";

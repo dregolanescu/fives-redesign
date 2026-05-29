@@ -1,7 +1,11 @@
 ﻿import type { GlobalConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 export const HeroConfig: GlobalConfig = {
   slug: 'hero-config',
   label: 'Configurare Hero',
+  hooks: {
+    afterChange: [({ doc }) => { try { revalidatePath('/') } catch {} return doc }],
+  },
   fields: [
     { name: 'displayMode', type: 'select', label: 'Mod afisare', required: true, defaultValue: 'single',
       options: [{ label: 'Un singur slide', value: 'single' },{ label: 'Slider', value: 'slider' }] },

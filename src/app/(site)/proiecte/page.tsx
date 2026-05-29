@@ -1,7 +1,7 @@
 import { getPublishedProjects } from "@/lib/payload";
 import { ProiecteClient } from "./proiecte-client";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: cached HTML, regenerated >=5min OR on-demand via Payload revalidatePath hooks
 
 function getMediaUrl(media: any): string | null {
   if (!media) return null;
