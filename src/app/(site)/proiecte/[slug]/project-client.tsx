@@ -342,20 +342,24 @@ export function ProjectClient({ project }: { project: ProjectData }) {
               variants={staggerContainer}
               className="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
-              {project.gallery.map((img, i) => (
+              {project.gallery.map((img, i) => {
+                const isLoneLast =
+                  project.gallery.length % 2 === 1 && i === project.gallery.length - 1;
+                return (
                 <motion.div
                   key={i}
                   variants={staggerItem}
-                  className="overflow-hidden rounded-lg cursor-pointer group"
+                  className={`overflow-hidden rounded-lg cursor-pointer group ${isLoneLast ? "md:col-span-2" : ""}`}
                   onClick={() => openLightbox(i)}
                 >
                   <img
                     src={img.url}
                     alt={img.caption || `${title} — ${i + 1}`}
-                    className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${isLoneLast ? "aspect-[16/10] md:aspect-[2/1]" : "aspect-[16/10]"}`}
                   />
                 </motion.div>
-              ))}
+                );
+              })}
             </motion.div>
           </div>
         </section>
@@ -365,9 +369,9 @@ export function ProjectClient({ project }: { project: ProjectData }) {
       {project.metrics.length > 0 && (
         <section data-theme="dark" className="section-padding-sm bg-stone-900">
           <div className="container-wide">
-            <motion.div ref={metricsRef} initial="hidden" animate={metricsInView ? "visible" : "hidden"} variants={staggerContainer} className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <motion.div ref={metricsRef} initial="hidden" animate={metricsInView ? "visible" : "hidden"} variants={staggerContainer} className="flex flex-wrap justify-center gap-y-10 gap-x-12 sm:gap-x-16 md:gap-x-24">
               {project.metrics.map((metric) => (
-                <motion.div key={metric.label} variants={staggerItem} className="text-center">
+                <motion.div key={metric.label} variants={staggerItem} className="text-center w-[38%] sm:w-auto sm:min-w-[150px]">
                   <span className="block text-display font-bold text-gold-gradient">{metric.value}</span>
                   <span className="text-label text-stone-400 mt-2 block">
                     {(isEn && metric.labelEn) || metric.label}
@@ -391,7 +395,6 @@ export function ProjectClient({ project }: { project: ProjectData }) {
           </Link>
         </div>
       </section>
-
       {/* Lightbox overlay */}
       <AnimatePresence>
         {lightboxIndex !== null && (
