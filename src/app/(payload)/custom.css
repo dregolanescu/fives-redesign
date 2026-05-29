@@ -324,6 +324,19 @@
   color: var(--text-muted) !important;
 }
 
+/* Status field — publish warning in brand gold so it stands out */
+.field-description-status {
+  color: var(--fives-gold-light) !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+  line-height: 1.45 !important;
+  margin-top: 0.5rem !important;
+  padding: 0.6rem 0.75rem !important;
+  background: var(--fives-gold-soft) !important;
+  border-left: 3px solid var(--fives-gold) !important;
+  border-radius: 4px !important;
+}
+
 /* Sidebar in document edit */
 .doc-controls,
 .document-fields__sidebar {
