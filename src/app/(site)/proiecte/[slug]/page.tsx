@@ -2,6 +2,8 @@ import { getProjectBySlug, getPublishedProjects } from "@/lib/payload";
 import { ProjectClient } from "./project-client";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 function getMediaUrl(media: any): string | null {
   if (!media) return null;
   if (typeof media === "string") return media;
