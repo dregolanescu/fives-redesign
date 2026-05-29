@@ -8,14 +8,36 @@ import { InstagramFeed } from "@/components/sections/instagram-feed";
 import { WhyFives } from "@/components/sections/why-fives";
 import { Testimonials } from "@/components/sections/testimonials";
 import { FinalCta } from "@/components/sections/final-cta";
+import { getFeaturedProjects } from "@/lib/payload";
 
-export default function HomePage() {
+function mediaUrl(m: any): string | null {
+  if (!m) return null;
+  if (typeof m === "string") return m;
+  return m.url || null;
+}
+
+export default async function HomePage() {
+  let featured: any[] = [];
+  try {
+    featured = await getFeaturedProjects();
+  } catch (e) {
+    console.error("Failed to fetch featured projects:", e);
+  }
+
+  const featuredProjects = featured.map((p: any) => ({
+    slug: p.slug,
+    title: p.title || "",
+    titleEn: p.titleEn || null,
+    category: p.category || "Corporate",
+    heroImage: mediaUrl(p.heroImage),
+  }));
+
   return (
     <>
       <Hero />
       <CredibilityStrip />
       <Capabilities />
-      <FeaturedProjects />
+      <FeaturedProjects projects={featuredProjects} />
       <InstagramFeed />
       <WhyFives />
       <Testimonials />

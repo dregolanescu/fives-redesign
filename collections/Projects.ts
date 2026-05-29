@@ -63,6 +63,8 @@ export const Projects: CollectionConfig = {
     },
     { name: 'year', type: 'text', label: 'An', admin: { position: 'sidebar' } },
     { name: 'order', type: 'number', label: 'Ordine', defaultValue: 1, admin: { position: 'sidebar' } },
+    { name: 'featuredHome', type: 'checkbox', label: 'Afiseaza pe prima pagina', defaultValue: false,
+      admin: { position: 'sidebar', description: 'Bifeaza ca proiectul sa apara in sectiunea de proiecte de pe prima pagina (homepage). Se afiseaza maxim 4, in ordinea data de campul Ordine.' } },
     { name: 'heroImage', type: 'upload', relationTo: 'media', label: 'Imagine principala' },
 
     /* ── Content — tabs per language ── */

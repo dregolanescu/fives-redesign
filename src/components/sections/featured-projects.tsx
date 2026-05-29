@@ -2,37 +2,22 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 
-const projects = [
-  {
-    title: "UNTOLD Festival 2025",
-    category: "Festival",
-    slug: "untold-festival-2025",
-    image: "/untold.jpg",
-  },
-  {
-    title: "Electric Castle",
-    category: "Festival",
-    slug: "electric-castle",
-    image: "/electric_castle.jpg",
-  },
-  {
-    title: "Tech Conference 2024",
-    category: "Conferință",
-    slug: "tech-conference-2024",
-    image: "https://www.fives.ro/files/up/1242.jpg",
-  },
-  {
-    title: "Samsung Launch",
-    category: "Lansare",
-    slug: "lansare-samsung",
-    image: "https://www.fives.ro/files/up/390.jpg",
-  },
-];
+export interface FeaturedProjectItem {
+  slug: string;
+  title: string;
+  titleEn: string | null;
+  category: string;
+  heroImage: string | null;
+}
+
+const categoryLabels: Record<string, Record<string, string>> = {
+  ro: { Corporate: "Corporate", Festival: "Festival", Live: "Muzica live", Sportiv: "Sportiv", Artistic: "Artistic", Conferinta: "Conferinta" },
+  en: { Corporate: "Corporate", Festival: "Festival", Live: "Live Music", Sportiv: "Sports", Artistic: "Artistic", Conferinta: "Conference" },
+};
 
 const containerVariants = {
   hidden: {},
@@ -48,10 +33,21 @@ const itemVariants = {
   },
 };
 
-export function FeaturedProjects() {
+// Bento layout — only applied when exactly 4 featured projects are present.
+const bentoCol = ["md:col-span-2", "md:col-span-1 md:row-span-2", "md:col-span-1", "md:col-span-1"];
+const bentoAspect = ["aspect-[16/9]", "aspect-[3/4] md:aspect-auto md:h-full", "aspect-[4/3]", "aspect-[4/3]"];
+
+export function FeaturedProjects({ projects = [] }: { projects?: FeaturedProjectItem[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const labels = categoryLabels[lang] || categoryLabels.ro;
+
+  // Nothing flagged for the homepage yet — hide the section entirely.
+  if (!projects.length) return null;
+
+  const items = projects.slice(0, 4);
+  const isBento = items.length === 4;
 
   return (
     <section className="bg-white section-padding">
@@ -77,23 +73,18 @@ export function FeaturedProjects() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4"
+          className={isBento ? "grid grid-cols-1 md:grid-cols-3 gap-4" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"}
         >
-          <motion.div variants={itemVariants} className="md:col-span-2">
-            <ProjectCard project={projects[0]} aspectClass="aspect-[16/9]" />
-          </motion.div>
-          <motion.div variants={itemVariants} className="md:col-span-1 md:row-span-2">
-            <ProjectCard
-              project={projects[1]}
-              aspectClass="aspect-[3/4] md:aspect-auto md:h-full"
-            />
-          </motion.div>
-          <motion.div variants={itemVariants} className="md:col-span-1">
-            <ProjectCard project={projects[2]} aspectClass="aspect-[4/3]" />
-          </motion.div>
-          <motion.div variants={itemVariants} className="md:col-span-1">
-            <ProjectCard project={projects[3]} aspectClass="aspect-[4/3]" />
-          </motion.div>
+          {items.map((p, i) => (
+            <motion.div key={p.slug} variants={itemVariants} className={isBento ? bentoCol[i] : ""}>
+              <ProjectCard
+                project={p}
+                title={(lang === "en" && p.titleEn) || p.title}
+                categoryLabel={labels[p.category] || p.category}
+                aspectClass={isBento ? bentoAspect[i] : "aspect-[4/3]"}
+              />
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
@@ -102,27 +93,35 @@ export function FeaturedProjects() {
 
 function ProjectCard({
   project,
+  title,
+  categoryLabel,
   aspectClass,
 }: {
-  project: (typeof projects)[number];
+  project: FeaturedProjectItem;
+  title: string;
+  categoryLabel: string;
   aspectClass: string;
 }) {
   return (
     <Link
       href={`/proiecte/${project.slug}`}
-      className={`group relative block overflow-hidden rounded-lg ${aspectClass}`}
+      className={`group relative block overflow-hidden rounded-lg bg-stone-200 ${aspectClass}`}
     >
-      <Image
-        src={project.image}
-        alt={project.title}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
-      />
+      {project.heroImage ? (
+        <img
+          src={project.heroImage}
+          alt={title}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-stone-300" />
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
       <div className="absolute inset-0 flex flex-col justify-end p-6">
-        <span className="text-label text-gold mb-2">{project.category}</span>
-        <h3 className="text-title text-white font-bold">{project.title}</h3>
+        <span className="text-label text-gold mb-2">{categoryLabel}</span>
+        <h3 className="text-title text-white font-bold">{title}</h3>
       </div>
     </Link>
   );

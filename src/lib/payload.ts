@@ -71,3 +71,19 @@ export async function getProjectBySlug(slug: string) {
   })
   return result.docs[0] || null
 }
+
+export async function getFeaturedProjects() {
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'projects',
+    where: { status: { equals: 'published' }, featuredHome: { equals: true } },
+    sort: 'order',
+    limit: 4,
+    depth: 1,
+    select: {
+      slug: true, category: true, year: true, order: true, status: true, featuredHome: true,
+      heroImage: true, title: true, titleEn: true, description: true, descriptionEn: true,
+    },
+  })
+  return result.docs
+}
