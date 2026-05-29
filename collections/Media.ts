@@ -2,6 +2,11 @@
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  access: {
+    // Media files must be publicly readable so images load for all site visitors
+    // (not just logged-in admins). Upload/update/delete stay admin-only by default.
+    read: () => true,
+  },
   upload: {
     mimeTypes: ['image/jpeg','image/png','image/webp','image/avif','video/mp4'],
     imageSizes: [
