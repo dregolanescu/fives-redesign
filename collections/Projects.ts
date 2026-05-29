@@ -23,8 +23,11 @@ export const Projects: CollectionConfig = {
     { name: 'slug', type: 'text', label: 'Slug', index: true, unique: true, admin: { position: 'sidebar' } },
     {
       name: 'status', type: 'select', label: 'Status', defaultValue: 'draft',
-      options: [{ label: 'Draft', value: 'draft' }, { label: 'Publicat', value: 'published' }],
-      admin: { position: 'sidebar' },
+      options: [{ label: 'Draft (doar in admin)', value: 'draft' }, { label: 'Publicat (vizibil pe site)', value: 'published' }],
+      admin: {
+        position: 'sidebar',
+        description: 'IMPORTANT: Proiectul apare pe site DOAR cand Status = "Publicat". "Draft" inseamna ca e vizibil doar aici, in admin. Dupa ce alegi Publicat, apasa Save.',
+      },
     },
     {
       name: 'category', type: 'select', label: 'Categorie',
