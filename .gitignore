@@ -45,3 +45,6 @@ next-env.d.ts
 
 # keys
 keys_fives_resend_vercel_turso.txt
+
+# Local 3D source archives (not needed in the build)
+/3D FIVES/

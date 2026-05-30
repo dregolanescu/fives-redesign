@@ -132,11 +132,15 @@ function StorySection() {
                     `,
                   }}
                 />
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="w-12 h-px bg-gold/40 mb-4" />
-                  <span className="text-label text-stone-500">Company Photo</span>
-                  <div className="w-12 h-px bg-gold/40 mt-4" />
-                </div>
+                {/* Interactive 3D element (Spline export, isolated in /public) */}
+                <iframe
+                  src="/3d/fives-coin/index.html"
+                  title="FIVE'S 3D"
+                  loading="lazy"
+                  scrolling="no"
+                  className="absolute inset-0 w-full h-full"
+                  style={{ border: 0, background: "transparent" }}
+                />
               </div>
             </div>
           </motion.div>
