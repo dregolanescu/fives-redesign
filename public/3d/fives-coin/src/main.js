@@ -8,7 +8,7 @@ const camera = new THREE.OrthographicCamera(
   window.innerHeight / 2, window.innerHeight / -2,
   -50000, 10000
 );
-camera.position.set(0, 0, 0);
+camera.position.set(0, 0, 1000); // non-zero distance so OrbitControls can actually rotate (ortho scale is unaffected)
 camera.quaternion.setFromEuler(new THREE.Euler(0, 0, 0));
 
 const scene = new THREE.Scene();
@@ -43,7 +43,7 @@ controls.dampingFactor = 0.125;
 controls.enableZoom = false;
 controls.enablePan = false;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 1.2;
+controls.autoRotateSpeed = 3.0;
 
 // auto-fit the coin to the container regardless of its size or the viewport
 function fitView() {
