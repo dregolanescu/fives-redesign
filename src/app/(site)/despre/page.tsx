@@ -118,7 +118,6 @@ function StorySection() {
             transition={{ duration: 0.9, ease: [0.25, 0.4, 0.25, 1] as [number, number, number, number], delay: 0.3 }}
           >
             <div className="relative">
-              <div className="absolute -top-4 -right-4 w-full h-full border border-gold/20 rounded-2xl" />
               <div
                 className="relative aspect-[3/4] rounded-2xl overflow-hidden"
                 style={{ background: "linear-gradient(145deg, #292524 0%, #1c1917 40%, #0c0a09 100%)" }}
