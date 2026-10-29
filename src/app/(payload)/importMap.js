@@ -34,6 +34,7 @@ import { default as CustomIcon } from '../../components/admin/Icon'
 import { default as ActiveToggle } from '../../components/admin/ActiveToggle'
 import { default as ActiveCell } from '../../components/admin/ActiveCell'
 import { default as GalleryBulkUpload } from '../../components/admin/GalleryBulkUpload'
+import { default as CurrentUser } from '../../components/admin/CurrentUser'
 
 /** @type {import('payload').ImportMap} */
 export const importMap = {
@@ -73,4 +74,5 @@ export const importMap = {
   "@/components/admin/ActiveToggle#default": ActiveToggle,
   "@/components/admin/ActiveCell#default": ActiveCell,
   "@/components/admin/GalleryBulkUpload#default": GalleryBulkUpload,
+  "@/components/admin/CurrentUser#default": CurrentUser,
 }

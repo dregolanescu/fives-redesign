@@ -221,7 +221,8 @@ const ro = {
   projects: {
     label: "PORTOFOLIU",
     heading: "Proiectele noastre",
-    body: "Peste 30 de ani de excelență în producția tehnică de evenimente. Fiecare proiect este o poveste de precizie, inovație și colaborare.",
+    body: "De peste 30 de ani facem producție tehnică de evenimente în România, ca fiecare show să sune, să lumineze și să arate exact așa cum a fost imaginat. Scenă, sunet, lumini inteligente, video și efecte speciale, de la prima schiță până la ultimul cablu strâns după show.",
+    bodyMore: "Mai jos sunt câteva dintre poveștile la care am fost partener tehnic.",
     categories: {
       Toate: "Toate",
       Festival: "Festival",
@@ -709,7 +710,8 @@ const en: typeof ro = {
   projects: {
     label: "PORTFOLIO",
     heading: "Our Projects",
-    body: "Over 30 years of excellence in technical event production. Every project is a story of precision, innovation and collaboration.",
+    body: "For over 30 years we've been doing technical event production in Romania, making every show sound, shine and look exactly the way it was imagined. Staging, sound, intelligent lighting, video and special effects, from the first sketch to the last cable packed after the show.",
+    bodyMore: "Here are a few of the stories we've been the technical partner for.",
     categories: {
       Toate: "All",
       Festival: "Festival",

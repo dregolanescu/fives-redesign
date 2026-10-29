@@ -9,12 +9,7 @@ import { WhyFives } from "@/components/sections/why-fives";
 import { Testimonials } from "@/components/sections/testimonials";
 import { FinalCta } from "@/components/sections/final-cta";
 import { getFeaturedProjects } from "@/lib/payload";
-
-function mediaUrl(m: any): string | null {
-  if (!m) return null;
-  if (typeof m === "string") return m;
-  return m.url || null;
-}
+import { cardImage, wideImage } from "@/lib/media";
 
 export default async function HomePage() {
   let featured: any[] = [];
@@ -29,7 +24,8 @@ export default async function HomePage() {
     title: p.title || "",
     titleEn: p.titleEn || null,
     category: p.category || "Corporate",
-    heroImage: mediaUrl(p.heroImage),
+    image: cardImage(p.heroImage),
+    wideImage: wideImage(p.heroImage),
   }));
 
   return (

@@ -1,21 +1,74 @@
+import type { Metadata } from "next";
 import { getArticleBySlug, getPublishedArticles } from "@/lib/payload";
+import { ogImage } from "@/lib/media";
 import { ArticleClient } from "./article-client";
 import { notFound } from "next/navigation";
 
 export const revalidate = 300; // ISR: cached HTML, regenerated >=5min OR on-demand via Payload revalidatePath hooks
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+type Props = { params: Promise<{ slug: string }> };
+
+// SEO / social previews from the article's SEO fields (CMS → SEO), with fallbacks.
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  let a: Awaited<ReturnType<typeof getArticleBySlug>> | null = null;
+  try {
+    a = await getArticleBySlug(slug);
+  } catch {
+    // The page itself 404s.
+  }
+  if (!a) return {};
+
+  const baseTitle: string = (a.metaTitle || "").trim() || a.title || "";
+  // Meta titles written in the CMS already end in "| FIVE'S"; plain titles get the suffix here.
+  // (Absolute, because the section layout's own title stops the root "%s | FIVE'S" template.)
+  const title = /five['’]?s/i.test(baseTitle) ? baseTitle : `${baseTitle} | FIVE'S`;
+  const description: string | undefined =
+    (a.metaDescription || "").trim() || (a.excerpt || "").trim() || undefined;
+  const image = ogImage(a.featuredImage);
+
+  return {
+    title: { absolute: title },
+    description,
+    openGraph: {
+      type: "article",
+      siteName: "FIVE'S",
+      locale: "ro_RO",
+      url: `/noutati/${slug}`,
+      title,
+      description,
+      publishedTime: a.publishedDate || undefined,
+      images: image
+        ? [{ url: image.url, width: image.width, height: image.height, alt: image.alt || a.title }]
+        : undefined,
+    },
+    twitter: {
+      card: image ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: image ? [image.url] : undefined,
+    },
+  };
+}
+
+export default async function ArticlePage({ params }: Props) {
+  const { slug } = await params;
+  let article: Awaited<ReturnType<typeof getArticleBySlug>> | null = null;
+  try {
+    article = await getArticleBySlug(slug);
+  } catch (e) {
+    console.error("Failed to fetch article:", e);
+  }
 
   if (!article) return notFound();
 
   // Get all articles for prev/next navigation
-  const allArticles = await getPublishedArticles();
+  let allArticles: Awaited<ReturnType<typeof getPublishedArticles>> = [];
+  try {
+    allArticles = await getPublishedArticles();
+  } catch (e) {
+    console.error("Failed to fetch articles:", e);
+  }
   const currentIndex = allArticles.findIndex((a: any) => a.slug === slug);
   const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
   const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;

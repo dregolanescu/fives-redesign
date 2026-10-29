@@ -201,6 +201,66 @@
   color: var(--text-secondary) !important;
 }
 
+/* Logged-in user chip (src/components/admin/CurrentUser.tsx, admin.components.actions).
+   Selectors are scoped under .app-header to beat the `.app-header * { color }` rule above. */
+.app-header .fives-current-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.8125rem;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.app-header .fives-current-user:hover,
+.app-header .fives-current-user:focus-visible {
+  border-color: var(--fives-gold);
+  background: var(--surface-elevated);
+}
+.app-header .fives-current-user__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--theme-success-500);
+  box-shadow: 0 0 0 3px rgba(143, 191, 159, 0.18);
+  flex-shrink: 0;
+}
+.app-header .fives-current-user__label {
+  color: var(--text-muted) !important;
+}
+.app-header .fives-current-user__name {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.app-header .fives-current-user__role {
+  color: var(--fives-gold-light) !important;
+  background: var(--fives-gold-soft);
+  border-radius: 9999px;
+  padding: 4px 8px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  .app-header .fives-current-user__label,
+  .app-header .fives-current-user__role {
+    display: none;
+  }
+  .app-header .fives-current-user__name {
+    max-width: 120px;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════
    DASHBOARD CARDS — elevated surface
    ═══════════════════════════════════════════════════════ */

@@ -1,7 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { revalidatePath } from 'next/cache'
 function slugify(t: string) {
-  return t.toLowerCase().normalize('NFD').replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-')
+  // "Gala - Alba Iulia" → "gala-alba-iulia" (not "gala---alba-iulia"); diacritics dropped.
+  return t.toLowerCase().normalize('NFD').replace(/[^\w\s-]/g, '').trim()
+    .replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')
 }
 export const Articles: CollectionConfig = {
   slug: 'articles',

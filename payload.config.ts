@@ -25,6 +25,16 @@ const dbConfig = process.env.TURSO_AUTH_TOKEN
   ? { url: dbUrl, authToken: process.env.TURSO_AUTH_TOKEN }
   : { url: dbUrl }
 
+// Signs admin sessions. It must come from the environment (Vercel → Environment
+// Variables; .env.local for local dev) — never from a default written in the code,
+// because this repository is public and anyone could read that default.
+const payloadSecret = process.env.PAYLOAD_SECRET
+if (!payloadSecret) {
+  throw new Error(
+    'PAYLOAD_SECRET is not set. Add it in Vercel → Environment Variables (or .env.local for local dev).',
+  )
+}
+
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'https://fives-preview.advanguard.ro',
   admin: {
@@ -34,6 +44,10 @@ export default buildConfig({
       icons: [{ url: '/favicon_ideogram_fives-01.svg', type: 'image/svg+xml' }],
     },
     theme: 'light',
+    components: {
+      // Top-right of the admin header: who is logged in (name/email + role).
+      actions: ['@/components/admin/CurrentUser'],
+    },
   },
   collections: [Users, Media, Articles, HeroSlides, Projects],
   globals: [HeroConfig],
@@ -87,5 +101,5 @@ export default buildConfig({
     : {}),
 
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
-  secret: process.env.PAYLOAD_SECRET || 'fives-payload-secret-key-2026',
+  secret: payloadSecret,
 })
