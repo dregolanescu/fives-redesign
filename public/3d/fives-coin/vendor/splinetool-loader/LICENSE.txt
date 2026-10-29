@@ -1,0 +1,2 @@
+@splinetool/loader 1.12.95 — license: MIT (as declared in the package's package.json on npm).
+Copied unmodified from the npm package build/ folder so the 3D element does not load code from unpkg.com.

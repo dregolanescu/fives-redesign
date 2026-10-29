@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored third-party runtime for the 3D element (three.js, Spline loader) — not our code.
+    "public/3d/**/vendor/**",
   ]),
 ]);
 

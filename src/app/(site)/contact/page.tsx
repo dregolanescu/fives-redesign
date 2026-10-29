@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLanguage } from "@/lib/i18n";
+import { ConsentMap } from "@/components/consent-map";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -264,15 +265,10 @@ export default function ContactPage() {
                 variants={fadeUp}
                 className="mt-8 relative aspect-[4/3] bg-stone-100 rounded-xl overflow-hidden border border-stone-200"
               >
-                <iframe
+                <ConsentMap
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d847.1765798473645!2d25.984179671497166!3d44.421861048636146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b200f24f24eda3%3A0xd2e63dbd84155ac6!2sFive's%20International%20SRL!5e0!3m2!1sen!2sro!4v1774311296389!5m2!1sen!2sro"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0, position: "absolute", inset: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
                   title="FIVE'S International — Locație"
+                  openUrl="https://www.google.com/maps/search/?api=1&query=FIVE%27S+International%2C+Bd.+Timi%C8%99oara+173%2C+Bucure%C8%99ti"
                 />
               </motion.div>
             </motion.div>

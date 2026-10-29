@@ -12,6 +12,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import { useConsent } from "@/lib/consent";
 
 const socialLinks = [
   { href: "https://www.facebook.com/FivesInternational", icon: Facebook, label: "Facebook" },
@@ -20,16 +21,16 @@ const socialLinks = [
   { href: "https://www.youtube.com/@fivesinternational7241", icon: Youtube, label: "YouTube" },
 ];
 
-const legalLinks = [
-  { href: "/politica-cookies", label: "Politica cookies" },
-  { href: "/termeni", label: "Termeni și condiții" },
-  { href: "/confidentialitate", label: "Confidențialitate" },
-  { href: "https://anpc.ro", label: "ANPC", external: true },
-  { href: "https://ec.europa.eu/consumers/odr", label: "Soluționarea litigiilor", external: true },
-];
-
 export function Footer() {
   const { t } = useLanguage();
+  const { openSettings } = useConsent();
+  // The EU ODR platform (ec.europa.eu/consumers/odr) was shut down on 20 July 2025, so its link is gone.
+  const legalLinks = [
+    { href: "/politica-cookies", label: t.footer.legal.cookies, external: false },
+    { href: "/termeni", label: t.footer.legal.terms, external: false },
+    { href: "/confidentialitate", label: t.footer.legal.privacy, external: false },
+    { href: "https://anpc.ro", label: "ANPC", external: true },
+  ];
   const navLinks = [
     { href: "/despre", label: t.nav.about },
     { href: "/proiecte", label: t.nav.projects },
@@ -170,6 +171,13 @@ export function Footer() {
                 </Link>
               )
             )}
+            <button
+              type="button"
+              onClick={openSettings}
+              className="text-xs text-stone-500 hover:text-stone-300 transition-colors duration-200 cursor-pointer"
+            >
+              {t.cookieBanner.settingsLink}
+            </button>
           </nav>
         </div>
       </div>

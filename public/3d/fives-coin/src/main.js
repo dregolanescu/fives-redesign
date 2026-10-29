@@ -18,7 +18,8 @@ let loadedObject = null;
 
 const loader = new SplineLoader();
 loader.load(
-  'https://prod.spline.design/1myZzGcn3MzUAiXr/scene.splinecode',
+  // Scene exported from Spline (1myZzGcn3MzUAiXr) and served from this site, not from prod.spline.design.
+  './scene.splinecode',
   (splineScene) => {
     scene.add(splineScene);
     loadedObject = splineScene;
