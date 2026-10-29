@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
       '@payload-config': './payload.config.ts',
     },
   },
+  experimental: {
+    // Branded 404 for unmatched URLs (src/app/global-not-found.tsx). Needed because the
+    // app has two root layouts, (site) and (payload), so there is no single root not-found.
+    globalNotFound: true,
+  },
 }
 
 export default withPayload(nextConfig)
