@@ -5,12 +5,14 @@ import Link from "next/link";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowLeft, MapPin, Calendar, Tag, Layers, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import { categoryLabel as getCategoryLabel, serviceLabel } from "@/lib/categories";
+import type { ResponsiveImage } from "@/lib/media";
 
 export interface ProjectData {
   slug: string;
   category: string;
   year: string;
-  heroImage: string | null;
+  heroImage: ResponsiveImage | null;
   title: string;
   titleEn: string | null;
   description: string;
@@ -25,26 +27,19 @@ export interface ProjectData {
   solutionEn: string | null;
   services: string[];
   metrics: { value: string; label: string; labelEn: string | null }[];
-  gallery: { url: string; caption: string | null }[];
+  gallery: GalleryItem[];
 }
 
-const categoryLabels: Record<string, Record<string, string>> = {
-  ro: { Corporate: "Corporate", Festival: "Festival", Live: "Muzica live", Sportiv: "Sportiv", Artistic: "Artistic", Conferinta: "Conferinta" },
-  en: { Corporate: "Corporate", Festival: "Festival", Live: "Live Music", Sportiv: "Sports", Artistic: "Artistic", Conferinta: "Conference" },
-};
+export interface GalleryItem {
+  image: ResponsiveImage;
+  /** Full-size original, only loaded when the visitor opens the lightbox. */
+  full: string;
+  caption: string | null;
+}
 
-const serviceLabels: Record<string, Record<string, string>> = {
-  ro: {
-    sunet: "Sunet", lumini: "Lumini", video: "Video", scenotehnica: "Scenotehnica",
-    "efecte-speciale": "Efecte speciale", pirotehnice: "Pirotehnice", scena: "Scena",
-    productie: "Productie eveniment", "management-tehnic": "Management tehnic",
-  },
-  en: {
-    sunet: "Sound", lumini: "Lighting", video: "Video", scenotehnica: "Stage Design",
-    "efecte-speciale": "Special Effects", pirotehnice: "Pyrotechnics", scena: "Stage",
-    productie: "Event Production", "management-tehnic": "Technical Management",
-  },
-};
+// Gallery tiles: 2 columns from md (max container 1280px), 1 below; a lone last tile spans both.
+const GALLERY_SIZES = "(min-width: 1280px) 584px, (min-width: 768px) 46vw, 92vw";
+const GALLERY_WIDE_SIZES = "(min-width: 1280px) 1184px, 92vw";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -81,7 +76,7 @@ function Lightbox({
   onPrev,
   onNext,
 }: {
-  images: { url: string; caption: string | null }[];
+  images: GalleryItem[];
   currentIndex: number;
   onClose: () => void;
   onPrev: () => void;
@@ -160,8 +155,8 @@ function Lightbox({
           onClick={(e) => e.stopPropagation()}
         >
           <img
-            src={img.url}
-            alt={img.caption || ""}
+            src={img.full}
+            alt={img.image.alt || img.caption || ""}
             className="max-w-full max-h-[80vh] object-contain rounded-lg"
           />
           {img.caption && (
@@ -177,15 +172,13 @@ function Lightbox({
 export function ProjectClient({ project }: { project: ProjectData }) {
   const { lang } = useLanguage();
   const isEn = lang === "en";
-  const labels = categoryLabels[lang] || categoryLabels.ro;
-
   const title = (isEn && project.titleEn) || project.title;
   const description = (isEn && project.descriptionEn) || project.description;
   const location = (isEn && project.locationEn) || project.location;
   const context = (isEn && project.contextEn) || project.context;
   const challenge = (isEn && project.challengeEn) || project.challenge;
   const solution = (isEn && project.solutionEn) || project.solution;
-  const categoryLabel = labels[project.category] || project.category;
+  const categoryLabel = project.category ? getCategoryLabel(lang, project.category) : "";
 
   const contentRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
@@ -217,7 +210,14 @@ export function ProjectClient({ project }: { project: ProjectData }) {
       <section data-theme="dark" className="relative">
         <div className="relative min-h-[500px] h-[70vh] w-full overflow-hidden">
           {project.heroImage ? (
-            <img src={project.heroImage} alt={title} className="w-full h-full object-cover" />
+            <img
+              src={project.heroImage.src}
+              srcSet={project.heroImage.srcSet}
+              sizes={project.heroImage.srcSet ? "100vw" : undefined}
+              alt={project.heroImage.alt || title}
+              fetchPriority="high"
+              className="w-full h-full object-cover"
+            />
           ) : (
             <div className="w-full h-full bg-stone-800" />
           )}
@@ -306,8 +306,7 @@ export function ProjectClient({ project }: { project: ProjectData }) {
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {project.services.map((service) => {
-                        const svcLabels = serviceLabels[lang] || serviceLabels.ro;
-                        const label = svcLabels[service] || service;
+                        const label = serviceLabel(lang, service);
                         return (
                           <span key={service} className="px-3 py-1 text-xs font-medium rounded-full bg-gold-muted text-gold-dark border border-gold/20">
                             {label}
@@ -353,8 +352,10 @@ export function ProjectClient({ project }: { project: ProjectData }) {
                   onClick={() => openLightbox(i)}
                 >
                   <img
-                    src={img.url}
-                    alt={img.caption || `${title} — ${i + 1}`}
+                    src={img.image.src}
+                    srcSet={img.image.srcSet}
+                    sizes={img.image.srcSet ? (isLoneLast ? GALLERY_WIDE_SIZES : GALLERY_SIZES) : undefined}
+                    alt={img.image.alt || img.caption || `${title} — ${i + 1}`}
                     loading="lazy"
                     decoding="async"
                     className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${isLoneLast ? "aspect-[16/10] md:aspect-[2/1]" : "aspect-[16/10]"}`}
@@ -372,8 +373,8 @@ export function ProjectClient({ project }: { project: ProjectData }) {
         <section data-theme="dark" className="section-padding-sm bg-stone-900">
           <div className="container-wide">
             <motion.div ref={metricsRef} initial="hidden" animate={metricsInView ? "visible" : "hidden"} variants={staggerContainer} className="flex flex-wrap justify-center gap-y-10 gap-x-12 sm:gap-x-16 md:gap-x-24">
-              {project.metrics.map((metric) => (
-                <motion.div key={metric.label} variants={staggerItem} className="text-center w-[38%] sm:w-auto sm:min-w-[150px]">
+              {project.metrics.map((metric, i) => (
+                <motion.div key={`${i}-${metric.label}`} variants={staggerItem} className="text-center w-[38%] sm:w-auto sm:min-w-[150px]">
                   <span className="block text-display font-bold text-gold-gradient">{metric.value}</span>
                   <span className="text-label text-stone-400 mt-2 block">
                     {(isEn && metric.labelEn) || metric.label}

@@ -4,7 +4,12 @@ import { NoutatiClient, type ArticleItem } from "./noutati-client";
 export const revalidate = 300; // ISR: cached HTML, regenerated >=5min OR on-demand via Payload revalidatePath hooks
 
 export default async function NoutatiPage() {
-  const docs = await getPublishedArticles();
+  let docs: Awaited<ReturnType<typeof getPublishedArticles>> = [];
+  try {
+    docs = await getPublishedArticles();
+  } catch (e) {
+    console.error("Failed to fetch articles:", e);
+  }
 
   const articles: ArticleItem[] = docs.map((doc: any) => ({
     slug: doc.slug,

@@ -22,7 +22,7 @@ const resetEmailHTML = ({ token, user }: { token?: string; user?: any }) => {
           <!-- Logo -->
           <tr>
             <td align="center" style="padding-bottom:32px;">
-              <img src="${serverURL}/logo_website_fives_white.svg" alt="FIVE'S" width="160" style="display:block;" />
+              <img src="${serverURL}/email/fives-logo-white.png" alt="FIVE'S" width="160" height="46" style="display:block;border:0;" />
             </td>
           </tr>
 
@@ -79,7 +79,7 @@ const resetEmailHTML = ({ token, user }: { token?: string; user?: any }) => {
           <tr>
             <td align="center" style="padding-top:28px;">
               <p style="margin:0;font-size:12px;color:#85827A;letter-spacing:0.05em;">
-                FIVE'S RESTAURANT &amp; LOUNGE BAR
+                FIVE'S &middot; PRODUCȚIE TEHNICĂ DE EVENIMENTE
               </p>
               <p style="margin:4px 0 0;font-size:11px;color:#57564f;">
                 Acest email a fost trimis automat. Nu răspunde la acest mesaj.

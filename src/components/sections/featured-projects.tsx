@@ -5,19 +5,19 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import { categoryLabel } from "@/lib/categories";
+import type { ResponsiveImage } from "@/lib/media";
 
 export interface FeaturedProjectItem {
   slug: string;
   title: string;
   titleEn: string | null;
   category: string;
-  heroImage: string | null;
+  /** 4:3 crops (400w/800w) — for the small tiles. */
+  image: ResponsiveImage | null;
+  /** Uncropped (≈1620w + original) — for the wide and the tall bento tiles. */
+  wideImage: ResponsiveImage | null;
 }
-
-const categoryLabels: Record<string, Record<string, string>> = {
-  ro: { Corporate: "Corporate", Festival: "Festival", Live: "Muzica live", Sportiv: "Sportiv", Artistic: "Artistic", Conferinta: "Conferinta" },
-  en: { Corporate: "Corporate", Festival: "Festival", Live: "Live Music", Sportiv: "Sports", Artistic: "Artistic", Conferinta: "Conference" },
-};
 
 const containerVariants = {
   hidden: {},
@@ -36,12 +36,19 @@ const itemVariants = {
 // Bento layout — only applied when exactly 4 featured projects are present.
 const bentoCol = ["md:col-span-2", "md:col-span-1 md:row-span-2", "md:col-span-1", "md:col-span-1"];
 const bentoAspect = ["aspect-[16/9]", "aspect-[3/4] md:aspect-auto md:h-full", "aspect-[4/3]", "aspect-[4/3]"];
+// Rendered widths (max container 1280px): wide tile = 2 of 3 columns, the others = 1 column.
+const bentoSizes = [
+  "(min-width: 1280px) 784px, (min-width: 768px) 62vw, 92vw",
+  "(min-width: 1280px) 384px, (min-width: 768px) 31vw, 92vw",
+  "(min-width: 1280px) 384px, (min-width: 768px) 31vw, 92vw",
+  "(min-width: 1280px) 384px, (min-width: 768px) 31vw, 92vw",
+];
+const gridSizes = "(min-width: 1280px) 384px, (min-width: 1024px) 31vw, (min-width: 640px) 46vw, 92vw";
 
 export function FeaturedProjects({ projects = [] }: { projects?: FeaturedProjectItem[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const { lang, t } = useLanguage();
-  const labels = categoryLabels[lang] || categoryLabels.ro;
 
   // Nothing flagged for the homepage yet — hide the section entirely.
   if (!projects.length) return null;
@@ -75,16 +82,23 @@ export function FeaturedProjects({ projects = [] }: { projects?: FeaturedProject
           animate={isInView ? "visible" : "hidden"}
           className={isBento ? "grid grid-cols-1 md:grid-cols-3 gap-4" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"}
         >
-          {items.map((p, i) => (
-            <motion.div key={p.slug} variants={itemVariants} className={isBento ? bentoCol[i] : ""}>
-              <ProjectCard
-                project={p}
-                title={(lang === "en" && p.titleEn) || p.title}
-                categoryLabel={labels[p.category] || p.category}
-                aspectClass={isBento ? bentoAspect[i] : "aspect-[4/3]"}
-              />
-            </motion.div>
-          ))}
+          {items.map((p, i) => {
+            // The wide (16:9) and tall bento tiles crop differently from 4:3, so they get the
+            // uncropped image; the 4:3 tiles use the matching 4:3 card crops.
+            const useWide = isBento && i < 2;
+            return (
+              <motion.div key={p.slug} variants={itemVariants} className={isBento ? bentoCol[i] : ""}>
+                <ProjectCard
+                  project={p}
+                  image={(useWide ? p.wideImage : p.image) || p.image || p.wideImage}
+                  sizes={isBento ? bentoSizes[i] : gridSizes}
+                  title={(lang === "en" && p.titleEn) || p.title}
+                  categoryLabel={categoryLabel(lang, p.category)}
+                  aspectClass={isBento ? bentoAspect[i] : "aspect-[4/3]"}
+                />
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
@@ -93,11 +107,15 @@ export function FeaturedProjects({ projects = [] }: { projects?: FeaturedProject
 
 function ProjectCard({
   project,
+  image,
+  sizes,
   title,
   categoryLabel,
   aspectClass,
 }: {
   project: FeaturedProjectItem;
+  image: ResponsiveImage | null;
+  sizes: string;
   title: string;
   categoryLabel: string;
   aspectClass: string;
@@ -107,10 +125,12 @@ function ProjectCard({
       href={`/proiecte/${project.slug}`}
       className={`group relative block overflow-hidden rounded-lg bg-stone-200 ${aspectClass}`}
     >
-      {project.heroImage ? (
+      {image ? (
         <img
-          src={project.heroImage}
-          alt={title}
+          src={image.src}
+          srcSet={image.srcSet}
+          sizes={image.srcSet ? sizes : undefined}
+          alt={image.alt || title}
           loading="lazy"
           decoding="async"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

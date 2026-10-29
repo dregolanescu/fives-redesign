@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { getPayload } from 'payload'
 import configPromise from '../../payload.config'
 
@@ -17,16 +18,18 @@ export async function getPublishedArticles() {
   return result.docs
 }
 
-export async function getArticleBySlug(slug: string) {
+// Published only: drafts must not be reachable by typing their URL.
+// cache(): generateMetadata and the page share one query per request.
+export const getArticleBySlug = cache(async (slug: string) => {
   const payload = await getPayloadClient()
   const result = await payload.find({
     collection: 'articles',
-    where: { slug: { equals: slug } },
+    where: { slug: { equals: slug }, status: { equals: 'published' } },
     limit: 1,
     depth: 2,
   })
   return result.docs[0] || null
-}
+})
 
 export async function getHeroSlides() {
   const payload = await getPayloadClient()
@@ -61,16 +64,18 @@ export async function getPublishedProjects() {
   return result.docs
 }
 
-export async function getProjectBySlug(slug: string) {
+// Published only: drafts must not be reachable by typing their URL.
+// cache(): generateMetadata and the page share one query per request.
+export const getProjectBySlug = cache(async (slug: string) => {
   const payload = await getPayloadClient()
   const result = await payload.find({
     collection: 'projects',
-    where: { slug: { equals: slug } },
+    where: { slug: { equals: slug }, status: { equals: 'published' } },
     limit: 1,
     depth: 2,
   })
   return result.docs[0] || null
-}
+})
 
 export async function getFeaturedProjects() {
   const payload = await getPayloadClient()

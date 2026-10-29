@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CookieBanner } from "@/components/cookie-banner";
 import { Providers } from "@/components/providers";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -14,6 +15,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative URLs in page metadata (og:url etc.). Comes from NEXT_PUBLIC_SERVER_URL.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Performing events - FIVE'S",
     template: "%s | FIVE'S",
