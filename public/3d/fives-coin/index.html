@@ -6,12 +6,13 @@
     <link rel="stylesheet" href="./src/styles.css" />
   </head>
   <body>
+    <!-- Runtime self-hosted (no unpkg / spline.design requests): @splinetool/loader 1.12.95 + three 0.149.0, both MIT -->
     <script type="importmap">
       {
         "imports": {
-          "@splinetool/loader": "https://unpkg.com/@splinetool/loader@1.12.95/build/SplineLoader.js",
-          "three": "https://unpkg.com/three@0.149.0/build/three.module.js",
-          "three/": "https://unpkg.com/three@0.149.0/"
+          "@splinetool/loader": "./vendor/splinetool-loader/SplineLoader.js",
+          "three": "./vendor/three/build/three.module.js",
+          "three/": "./vendor/three/"
         }
       }
     </script>
