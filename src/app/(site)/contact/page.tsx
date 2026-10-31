@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { useLanguage } from "@/lib/i18n";
 import { ConsentMap } from "@/components/consent-map";
+import { COMPANY, displayPhone } from "@/lib/company";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -36,7 +37,7 @@ const staggerContainer = {
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [tipEveniment, setTipEveniment] = useState("");
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const heroRef = useRef<HTMLDivElement>(null);
   const heroInView = useInView(heroRef, { once: true, margin: "-50px" });
@@ -47,7 +48,7 @@ export default function ContactPage() {
 
   const contactInfo = [
     { icon: Mail, label: t.contact.info.email, value: "office@fives.ro", href: "mailto:office@fives.ro" },
-    { icon: Phone, label: t.contact.info.phone, value: "(+4) 031 401 1971", href: "tel:+40314011971" },
+    { icon: Phone, label: t.contact.info.phone, value: displayPhone(lang), href: COMPANY.phoneHref },
     { icon: MapPin, label: t.contact.info.address, value: "Bd. Timișoara 173, Sector 6, București", href: null },
     { icon: Clock, label: t.contact.info.hours, value: t.contact.info.hoursValue, href: null },
   ];

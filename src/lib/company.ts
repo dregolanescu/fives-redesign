@@ -12,9 +12,16 @@ export const COMPANY = {
   addressRo: "Bd. Timișoara nr. 173, Sector 6, București, România",
   addressEn: "173 Timișoara Blvd., Sector 6, Bucharest, Romania",
   email: "office@fives.ro",
-  phone: "(+4) 031 401 1971",
-  phoneHref: "tel:+40314011971",
+  // Mobile number FIVE'S asked for on 31.10.2026, replacing the landline everywhere on the site.
+  phone: "0724 580 731",
+  phoneIntl: "+40 724 580 731",
+  phoneHref: "tel:+40724580731",
 } as const;
 
+/** Phone as shown to visitors: local format in Romanian, international format in English. */
+export function displayPhone(lang: "ro" | "en") {
+  return lang === "en" ? COMPANY.phoneIntl : COMPANY.phone;
+}
+
 /** Date shown as "last updated" on the legal pages. */
-export const LEGAL_UPDATED = { ro: "29 octombrie 2026", en: "29 October 2026" } as const;
+export const LEGAL_UPDATED = { ro: "31 octombrie 2026", en: "31 October 2026" } as const;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n";
-import { COMPANY, LEGAL_UPDATED } from "@/lib/company";
+import { COMPANY, LEGAL_UPDATED, displayPhone } from "@/lib/company";
 import { LegalLink, LegalPage, type LegalSection } from "@/components/legal-page";
 
 export function TermsContent() {
@@ -17,7 +17,7 @@ export function TermsContent() {
       <p>{en ? COMPANY.addressEn : COMPANY.addressRo}</p>
       <p>
         Email: <LegalLink href={`mailto:${COMPANY.email}`}>{COMPANY.email}</LegalLink> · {en ? "Phone" : "Telefon"}:{" "}
-        <LegalLink href={COMPANY.phoneHref}>{COMPANY.phone}</LegalLink>
+        <LegalLink href={COMPANY.phoneHref}>{displayPhone(lang)}</LegalLink>
       </p>
     </div>
   );
