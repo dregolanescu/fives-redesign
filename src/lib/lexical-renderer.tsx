@@ -26,13 +26,26 @@ type LexicalNode = {
   [key: string]: any;
 };
 
+// Links from the CMS may only point to web pages, email, phone or paths on this site.
+function safeHref(raw: string | undefined): string {
+  const url = (raw || "").trim();
+  if (!url) return "#";
+  if (url.startsWith("/") || url.startsWith("#")) return url;
+  try {
+    const { protocol } = new URL(url);
+    return ["http:", "https:", "mailto:", "tel:"].includes(protocol) ? url : "#";
+  } catch {
+    return "#";
+  }
+}
+
 function renderTextNode(node: LexicalNode, key: number): React.ReactNode {
   if (node.type === "linebreak") {
     return <br key={key} />;
   }
 
   if (node.type === "link" || node.type === "autolink") {
-    const url = node.fields?.url || node.url || "#";
+    const url = safeHref(node.fields?.url || node.url);
     const newTab = node.fields?.newTab ?? true;
     return (
       <a

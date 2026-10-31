@@ -1,9 +1,36 @@
-import type { CollectionConfig } from 'payload'
+import { APIError } from 'payload'
+import type { Access, CollectionConfig, FieldAccess, PayloadRequest } from 'payload'
 
-const resetEmailHTML = ({ token, user }: { token?: string; user?: any }) => {
+// Roles: an administrator manages every account; an editor manages content and only their own account.
+const isAdmin = (user: unknown): boolean => (user as { role?: string } | null)?.role === 'admin'
+const adminOnly: Access = ({ req: { user } }) => isAdmin(user)
+const adminOrSelf: Access = ({ req: { user } }) => {
+  if (!user) return false
+  if (isAdmin(user)) return true
+  return { id: { equals: user.id } }
+}
+const adminOnlyField: FieldAccess = ({ req: { user } }) => isAdmin(user)
+
+// Never let the last administrator disappear (deleted or demoted), or nobody could manage accounts.
+async function assertAnotherAdmin(req: PayloadRequest, excludeId: number | string) {
+  const { totalDocs } = await req.payload.count({
+    collection: 'users',
+    where: { and: [{ role: { equals: 'admin' } }, { id: { not_equals: excludeId } }] },
+    req,
+    overrideAccess: true,
+  })
+  if (totalDocs === 0) {
+    throw new APIError('Trebuie să rămână cel puțin un administrator.', 400, undefined, true)
+  }
+}
+
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string)
+
+const resetEmailHTML = ({ token, user }: { token?: string; user?: { name?: string | null; email?: string | null } }) => {
   const serverURL = process.env.NEXT_PUBLIC_SERVER_URL || 'https://fives-preview.advanguard.ro'
   const resetURL = `${serverURL}/admin/reset/${token}`
-  const userName = user?.name || user?.email || 'utilizator'
+  const userName = escapeHtml(String(user?.name || user?.email || 'utilizator'))
 
   return `
 <!DOCTYPE html>
@@ -97,11 +124,22 @@ const resetEmailHTML = ({ token, user }: { token?: string; user?: any }) => {
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  admin: { useAsTitle: 'name' },
+  admin: {
+    useAsTitle: 'name',
+    // Editors reach their own account from the avatar menu; the accounts list is for administrators.
+    hidden: ({ user }) => !isAdmin(user),
+  },
+  access: {
+    create: adminOnly,
+    read: adminOrSelf,
+    update: adminOrSelf,
+    delete: adminOnly,
+    unlock: adminOnly,
+  },
   auth: {
     forgotPassword: {
-      generateEmailHTML: (args: any) => resetEmailHTML({ token: args?.token, user: args?.user }),
-      generateEmailSubject: (_args: any) => "Resetare parolă — FIVE'S Admin",
+      generateEmailHTML: (args) => resetEmailHTML({ token: args?.token, user: args?.user }),
+      generateEmailSubject: () => "Resetare parolă — FIVE'S Admin",
     },
   },
   fields: [
@@ -111,6 +149,8 @@ export const Users: CollectionConfig = {
       type: 'select',
       label: 'Rol',
       defaultValue: 'editor',
+      // Only an administrator can give or change a role, so an editor cannot promote themselves.
+      access: { create: adminOnlyField, update: adminOnlyField },
       options: [
         { label: 'Administrator', value: 'admin' },
         { label: 'Editor', value: 'editor' },
@@ -118,6 +158,25 @@ export const Users: CollectionConfig = {
     },
   ],
   hooks: {
+    beforeChange: [
+      async ({ data, operation, originalDoc, req }) => {
+        if (operation === 'create') {
+          // The very first account of a fresh installation must be able to manage the others.
+          const { totalDocs } = await req.payload.count({ collection: 'users', req, overrideAccess: true })
+          if (totalDocs === 0) data.role = 'admin'
+        }
+        if (operation === 'update' && originalDoc?.role === 'admin' && data?.role && data.role !== 'admin') {
+          await assertAnotherAdmin(req, originalDoc.id)
+        }
+        return data
+      },
+    ],
+    beforeDelete: [
+      async ({ id, req }) => {
+        const doc = await req.payload.findByID({ collection: 'users', id, req, overrideAccess: true, depth: 0 })
+        if (doc?.role === 'admin') await assertAnotherAdmin(req, id)
+      },
+    ],
     afterChange: [
       async ({ doc, operation, req }) => {
         if (operation === 'create') {
