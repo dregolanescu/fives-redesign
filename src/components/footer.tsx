@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 import { useConsent } from "@/lib/consent";
+import { COMPANY, displayPhone } from "@/lib/company";
 
 const socialLinks = [
   { href: "https://www.facebook.com/FivesInternational", icon: Facebook, label: "Facebook" },
@@ -22,7 +23,7 @@ const socialLinks = [
 ];
 
 export function Footer() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { openSettings } = useConsent();
   // The EU ODR platform (ec.europa.eu/consumers/odr) was shut down on 20 July 2025, so its link is gone.
   const legalLinks = [
@@ -116,11 +117,11 @@ export function Footer() {
                 office@fives.ro
               </a>
               <a
-                href="tel:+40314011971"
+                href={COMPANY.phoneHref}
                 className="flex items-center gap-3 text-sm text-stone-400 hover:text-white transition-colors duration-200 group"
               >
                 <Phone className="w-4 h-4 text-gold/70 group-hover:text-gold transition-colors" />
-                (+4) 031 401 1971
+                {displayPhone(lang)}
               </a>
               <div className="flex items-start gap-3 text-sm text-stone-400">
                 <MapPin className="w-4 h-4 mt-0.5 text-gold/70 shrink-0" />

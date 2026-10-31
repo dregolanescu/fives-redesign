@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/lib/i18n";
-import { COMPANY, LEGAL_UPDATED } from "@/lib/company";
+import { COMPANY, LEGAL_UPDATED, displayPhone } from "@/lib/company";
 import { LegalCard, LegalLink, LegalList, LegalPage, type LegalSection } from "@/components/legal-page";
 
 function CompanyBlock({ en }: { en: boolean }) {
@@ -14,7 +14,7 @@ function CompanyBlock({ en }: { en: boolean }) {
       <p>{en ? COMPANY.addressEn : COMPANY.addressRo}</p>
       <p>
         Email: <LegalLink href={`mailto:${COMPANY.email}`}>{COMPANY.email}</LegalLink> · {en ? "Phone" : "Telefon"}:{" "}
-        <LegalLink href={COMPANY.phoneHref}>{COMPANY.phone}</LegalLink>
+        <LegalLink href={COMPANY.phoneHref}>{displayPhone(en ? "en" : "ro")}</LegalLink>
       </p>
     </div>
   );

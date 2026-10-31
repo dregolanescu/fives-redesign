@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/lib/i18n";
+import { COMPANY, displayPhone } from "@/lib/company";
 import type { Lang } from "@/lib/translations";
 
 export function Navbar() {
@@ -296,8 +297,18 @@ export function Navbar() {
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                   <div className="text-center space-y-1">
-                    <p className="text-sm text-stone-500">office@fives.ro</p>
-                    <p className="text-sm text-stone-500">(+4) 031 401 1971</p>
+                    <a
+                      href={`mailto:${COMPANY.email}`}
+                      className="block text-sm text-stone-500 hover:text-stone-900 transition-colors"
+                    >
+                      {COMPANY.email}
+                    </a>
+                    <a
+                      href={COMPANY.phoneHref}
+                      className="block text-sm text-stone-500 hover:text-stone-900 transition-colors"
+                    >
+                      {displayPhone(lang)}
+                    </a>
                   </div>
                 </div>
               </div>
